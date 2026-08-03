@@ -13,8 +13,8 @@
     <h2 class="mb-4 text-sm font-medium text-gray-500">Maintenance</h2>
     <div class="mb-8 grid grid-cols-3 gap-4">
         <x-stat-tile label="Records logged" :value="$maintenance['count']" />
-        <x-stat-tile label="Total cost" value="${{ number_format($maintenance['totalCost'], 2) }}" />
-        <x-stat-tile label="Average cost" value="${{ number_format($maintenance['averageCost'], 2) }}" />
+        <x-stat-tile label="Total cost" value="{{ setting('currency_symbol', '$') }}{{ number_format($maintenance['totalCost'], 2) }}" />
+        <x-stat-tile label="Average cost" value="{{ setting('currency_symbol', '$') }}{{ number_format($maintenance['averageCost'], 2) }}" />
     </div>
 
     <h2 class="mb-4 text-sm font-medium text-gray-500">Users</h2>
@@ -39,7 +39,7 @@
                     <tr class="border-b border-gray-100 last:border-0">
                         <td class="px-4 py-3">{{ $asset->name }}</td>
                         <td class="px-4 py-3">{{ $asset->maintenance_records_count }}</td>
-                        <td class="px-4 py-3">${{ number_format($asset->maintenance_records_sum_cost ?? 0, 2) }}</td>
+                        <td class="px-4 py-3">{{ setting('currency_symbol', '$') }}{{ number_format($asset->maintenance_records_sum_cost ?? 0, 2) }}</td>
                     </tr>
                 @empty
                     <tr>

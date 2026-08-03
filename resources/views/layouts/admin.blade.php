@@ -9,7 +9,7 @@
     <div class="flex min-h-screen">
         <aside class="w-56 shrink-0 border-r border-gray-200 bg-white py-6">
             <div class="mb-4 px-6">
-                <span class="text-sm font-semibold uppercase tracking-wide text-gray-400">Admin</span>
+                <span class="text-sm font-semibold uppercase tracking-wide text-gray-400">{{ setting('site_name', 'To Do') }}</span>
             </div>
             <x-admin-nav :active="$__env->yieldContent('active')" />
         </aside>

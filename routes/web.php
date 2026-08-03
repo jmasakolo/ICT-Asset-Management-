@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\DepartmentController as AdminDepartmentController
 use App\Http\Controllers\Admin\LocationController as AdminLocationController;
 use App\Http\Controllers\Admin\MaintenanceController as AdminMaintenanceController;
 use App\Http\Controllers\Admin\ReportController as AdminReportController;
+use App\Http\Controllers\Admin\SettingController as AdminSettingController;
 use App\Http\Controllers\Admin\UserController as AdminUserController;
 use App\Http\Controllers\AssetController;
 use App\Http\Controllers\AuthController;
@@ -61,8 +62,10 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
         Route::get('/reports', [AdminReportController::class, 'index'])->name('reports.index');
 
+        Route::get('/settings', [AdminSettingController::class, 'index'])->name('settings.index');
+        Route::put('/settings', [AdminSettingController::class, 'update'])->name('settings.update');
+
         // Placeholder sections for the admin nav shell — real modules land one at a time.
         Route::view('/audit-logs', 'admin.placeholder', ['title' => 'Audit Logs', 'active' => 'audit-logs'])->name('audit-logs.index');
-        Route::view('/settings', 'admin.placeholder', ['title' => 'Settings', 'active' => 'settings'])->name('settings.index');
     });
 });

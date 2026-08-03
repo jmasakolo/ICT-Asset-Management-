@@ -14,7 +14,7 @@
         <x-stat-tile label="Total Assets" :value="$stats['total']" />
         <x-stat-tile label="Active" :value="$stats['byStatus']['active'] ?? 0" />
         <x-stat-tile label="Unassigned" :value="$stats['unassigned']" />
-        <x-stat-tile label="Total Value" value="${{ number_format($stats['totalValue'], 2) }}" />
+        <x-stat-tile label="Total Value" value="{{ setting('currency_symbol', '$') }}{{ number_format($stats['totalValue'], 2) }}" />
     </div>
 
     <div class="mt-8 grid gap-6 sm:grid-cols-2">

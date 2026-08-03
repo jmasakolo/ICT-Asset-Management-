@@ -50,7 +50,7 @@
                        class="w-full rounded-md border border-gray-300 px-3 py-2 text-sm">
             </div>
             <div>
-                <label for="cost" class="mb-1 block text-sm text-gray-700">Cost ($)</label>
+                <label for="cost" class="mb-1 block text-sm text-gray-700">Cost ({{ setting('currency_symbol', '$') }})</label>
                 <input type="number" step="0.01" min="0" name="cost" id="cost" value="{{ old('cost') }}"
                        class="w-full rounded-md border border-gray-300 px-3 py-2 text-sm">
             </div>
@@ -78,7 +78,7 @@
                         <td class="px-4 py-3">{{ $record->asset->name }}</td>
                         <td class="px-4 py-3">{{ $record->description }}</td>
                         <td class="px-4 py-3">{{ $record->performed_at->format('M j, Y') }}</td>
-                        <td class="px-4 py-3">{{ $record->cost !== null ? '$'.number_format($record->cost, 2) : '—' }}</td>
+                        <td class="px-4 py-3">{{ $record->cost !== null ? setting('currency_symbol', '$').number_format($record->cost, 2) : '—' }}</td>
                     </tr>
                 @empty
                     <tr>

@@ -48,7 +48,7 @@
                 </select>
             </div>
             <div>
-                <label for="value" class="mb-1 block text-sm text-gray-700">Value ($)</label>
+                <label for="value" class="mb-1 block text-sm text-gray-700">Value ({{ setting('currency_symbol', '$') }})</label>
                 <input type="number" step="0.01" min="0" name="value" id="value" value="{{ old('value') }}" required
                        class="w-full rounded-md border border-gray-300 px-3 py-2 text-sm">
             </div>
@@ -77,7 +77,7 @@
                         <td class="px-4 py-3">{{ $asset->name }}</td>
                         <td class="px-4 py-3">{{ $asset->category }}</td>
                         <td class="px-4 py-3 capitalize">{{ $asset->status }}</td>
-                        <td class="px-4 py-3">${{ number_format($asset->value, 2) }}</td>
+                        <td class="px-4 py-3">{{ setting('currency_symbol', '$') }}{{ number_format($asset->value, 2) }}</td>
                         <td class="px-4 py-3">{{ $asset->assignedUser?->name ?? 'Unassigned' }}</td>
                     </tr>
                 @empty
