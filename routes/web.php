@@ -62,6 +62,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::post('/maintenance', [AdminMaintenanceController::class, 'store'])->name('maintenance.store');
 
         Route::get('/reports', [AdminReportController::class, 'index'])->name('reports.index');
+        Route::get('/reports/pdf', [AdminReportController::class, 'pdf'])->name('reports.pdf');
 
         Route::get('/settings', [AdminSettingController::class, 'index'])->name('settings.index');
         Route::put('/settings', [AdminSettingController::class, 'update'])->name('settings.update');

@@ -10,6 +10,13 @@
 @endsection
 
 @section('content')
+    <div class="mb-6 flex justify-end">
+        <a href="{{ route('admin.reports.pdf') }}"
+           class="rounded-md bg-gray-900 px-4 py-2 text-sm font-medium text-white hover:bg-gray-700">
+            Download PDF
+        </a>
+    </div>
+
     <h2 class="mb-4 text-sm font-medium text-gray-500">Maintenance</h2>
     <div class="mb-8 grid grid-cols-3 gap-4">
         <x-stat-tile label="Records logged" :value="$maintenance['count']" />
