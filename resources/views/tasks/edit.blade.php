@@ -1,13 +1,18 @@
 @extends('layouts.app')
 
-@section('title', 'Edit Task')
+@section('title', 'Edit task · To Do')
+
+@section('header-actions')
+    <a class="btn btn-ghost" href="{{ route('tasks.index') }}">Back to list</a>
+@endsection
 
 @section('content')
-    <h2>Edit Task</h2>
+    <h1 class="page-title">Edit task</h1>
 
-    <form method="POST" action="{{ route('tasks.update', $task) }}">
-        @csrf
-        @method('PUT')
-        @include('tasks._form')
-    </form>
+    @include('tasks._form', [
+        'task' => $task,
+        'action' => route('tasks.update', $task),
+        'method' => 'PUT',
+        'submit' => 'Save changes',
+    ])
 @endsection

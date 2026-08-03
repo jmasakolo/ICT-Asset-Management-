@@ -7,7 +7,14 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\TaskController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', fn () => redirect()->route('tasks.index'));
+Route::redirect('/', '/tasks');
+
+// index, create, store, show, edit, update, destroy
+Route::resource('tasks', TaskController::class);
+
+// One-click done/undone from the listing.
+Route::patch('tasks/{task}/toggle', [TaskController::class, 'toggle'])
+    ->name('tasks.toggle');
 
 Route::middleware('guest')->group(function () {
     Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
@@ -18,9 +25,6 @@ Route::middleware('auth')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 });
-
-Route::resource('tasks', TaskController::class)->except(['show']);
-Route::patch('tasks/{task}/toggle', [TaskController::class, 'toggle'])->name('tasks.toggle');
 
 Route::prefix('admin')->name('admin.')->group(function () {
     Route::middleware('guest:admin')->group(function () {

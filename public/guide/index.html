@@ -1,0 +1,1321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>To Do — User Guide</title>
+<style>
+/* ==========================================================================
+   To Do — User Guide
+   Single self-contained file. Screen styles first, print rules at the end.
+   Palette matches the app's public/css/app.css.
+   ========================================================================== */
+
+:root {
+    --bg: #f4f5f7;
+    --surface: #ffffff;
+    --border: #e3e6ea;
+    --border-strong: #cfd4da;
+    --text: #1c2024;
+    --text-muted: #656d76;
+    --accent: #2f5fe0;
+    --danger: #c02a35;
+    --high: #b3261e;    --high-bg: #fdeceb;
+    --medium: #8a5a00;  --medium-bg: #fdf3e2;
+    --low: #2c6a4a;     --low-bg: #e9f6ef;
+    --radius: 10px;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font: 16px/1.65 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          "Helvetica Neue", Arial, sans-serif;
+    font-feature-settings: "kern" 1;
+    text-rendering: optimizeLegibility;
+}
+
+.sheet {
+    max-width: 860px;
+    margin: 32px auto 64px;
+    padding: 56px 64px 64px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: 0 1px 3px rgba(16, 24, 40, .06);
+}
+
+/* --- return-to-app bar (screen only) ------------------------------------ */
+.appbar {
+    max-width: 860px;
+    margin: 24px auto 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    font-size: 14px;
+}
+.appbar a {
+    color: var(--accent);
+    text-decoration: none;
+    font-weight: 600;
+}
+.appbar a:hover { text-decoration: underline; }
+.appbar .hint { color: var(--text-muted); font-weight: 400; }
+
+/* --- cover -------------------------------------------------------------- */
+.cover { text-align: left; }
+.cover .eyebrow {
+    font-size: 13px;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-weight: 700;
+    margin: 0 0 18px;
+}
+.cover h1 {
+    font-size: 52px;
+    line-height: 1.08;
+    letter-spacing: -.022em;
+    margin: 0 0 16px;
+    font-weight: 800;
+}
+.cover .tagline {
+    font-size: 19px;
+    color: var(--text-muted);
+    margin: 0 0 40px;
+    max-width: 52ch;
+}
+.rule {
+    height: 4px;
+    width: 64px;
+    background: var(--accent);
+    border-radius: 2px;
+    margin: 0 0 40px;
+}
+
+/* --- key/value facts table --------------------------------------------- */
+.facts {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14.5px;
+    margin: 0 0 8px;
+}
+.facts th, .facts td {
+    text-align: left;
+    padding: 9px 0;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+}
+.facts th {
+    width: 34%;
+    color: var(--text-muted);
+    font-weight: 600;
+}
+.facts td code { font-size: 13.5px; }
+
+/* --- table of contents -------------------------------------------------- */
+.toc { margin: 0; }
+.toc h2 { margin-top: 0; }
+.toc ol {
+    list-style: none;
+    counter-reset: toc;
+    padding: 0;
+    margin: 0;
+}
+.toc li {
+    counter-increment: toc;
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    padding: 8px 0;
+    border-bottom: 1px dotted var(--border-strong);
+}
+.toc li::before {
+    content: counter(toc) ".";
+    color: var(--accent);
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    min-width: 1.7em;
+}
+.toc a {
+    color: var(--text);
+    text-decoration: none;
+    font-weight: 600;
+}
+.toc a:hover { color: var(--accent); }
+.toc .desc {
+    color: var(--text-muted);
+    font-weight: 400;
+    font-size: 14px;
+}
+
+/* --- headings ----------------------------------------------------------- */
+h2 {
+    font-size: 27px;
+    letter-spacing: -.014em;
+    margin: 0 0 4px;
+    font-weight: 750;
+}
+.section > h2 { padding-top: 4px; }
+h2 .num {
+    display: block;
+    font-size: 12.5px;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-weight: 700;
+    margin-bottom: 6px;
+}
+h3 {
+    font-size: 17.5px;
+    margin: 30px 0 6px;
+    font-weight: 700;
+    letter-spacing: -.006em;
+}
+p { margin: 0 0 14px; }
+.lead { font-size: 17px; color: var(--text-muted); margin-bottom: 26px; }
+
+/* --- lists -------------------------------------------------------------- */
+ul.plain, ol.steps { padding-left: 22px; margin: 0 0 16px; }
+ol.steps > li, ul.plain > li { margin-bottom: 9px; }
+ol.steps > li::marker { font-weight: 700; color: var(--accent); }
+
+/* --- figures ------------------------------------------------------------ */
+figure {
+    margin: 22px 0 26px;
+    padding: 0;
+}
+figure img {
+    display: block;
+    width: 100%;
+    height: auto;
+    border: 1px solid var(--border-strong);
+    border-radius: 8px;
+    background: var(--bg);
+}
+figure img.narrow { width: 300px; max-width: 100%; margin: 0 auto; }
+figcaption {
+    font-size: 13.5px;
+    color: var(--text-muted);
+    margin-top: 9px;
+    padding-left: 2px;
+    border-left: 3px solid var(--border-strong);
+    padding: 2px 0 2px 10px;
+}
+figcaption b { color: var(--text); font-weight: 650; }
+
+/* --- callouts ----------------------------------------------------------- */
+.note, .warn {
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--accent);
+    background: #f7f9fe;
+    border-radius: 6px;
+    padding: 13px 16px;
+    margin: 20px 0;
+    font-size: 14.5px;
+}
+.warn {
+    border-left-color: var(--high);
+    background: var(--high-bg);
+}
+.note p:last-child, .warn p:last-child { margin-bottom: 0; }
+.note .label, .warn .label {
+    display: block;
+    font-weight: 700;
+    font-size: 12.5px;
+    letter-spacing: .07em;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+}
+.note .label { color: var(--accent); }
+.warn .label { color: var(--high); }
+
+/* --- reference tables --------------------------------------------------- */
+table.ref {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14.5px;
+    margin: 18px 0 24px;
+}
+table.ref th, table.ref td {
+    text-align: left;
+    padding: 10px 12px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+}
+table.ref thead th {
+    border-bottom: 2px solid var(--border-strong);
+    font-size: 12.5px;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+}
+table.ref tbody tr:last-child td { border-bottom: none; }
+table.ref td:first-child { white-space: nowrap; }
+
+/* --- inline badges mirroring the app ----------------------------------- */
+.badge {
+    display: inline-block;
+    font-size: 12px;
+    font-weight: 700;
+    padding: 2px 9px;
+    border-radius: 999px;
+    white-space: nowrap;
+}
+.badge-high   { color: var(--high);   background: var(--high-bg); }
+.badge-medium { color: var(--medium); background: var(--medium-bg); }
+.badge-low    { color: var(--low);    background: var(--low-bg); }
+.badge-today  { color: #6b4a00;       background: #ffe9a8; }
+.badge-over   { color: #fff;          background: var(--high); }
+
+code, kbd {
+    font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+    font-size: .89em;
+    background: #eef0f3;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 1px 5px;
+}
+kbd { box-shadow: 0 1px 0 var(--border-strong); font-weight: 600; }
+
+/* --- request/response examples ------------------------------------------ */
+pre {
+    font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+    font-size: 12.8px;
+    line-height: 1.5;
+    background: #f7f8fa;
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--border-strong);
+    border-radius: 6px;
+    padding: 12px 14px;
+    margin: 14px 0 20px;
+    overflow-x: auto;
+    white-space: pre;
+}
+pre code {
+    background: none;
+    border: 0;
+    padding: 0;
+    font-size: inherit;
+}
+.pre-label {
+    font-size: 12px;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    font-weight: 700;
+    margin: 18px 0 -8px;
+}
+
+/* --- HTTP method chips --------------------------------------------------- */
+.verb {
+    display: inline-block;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .04em;
+    padding: 2px 7px;
+    border-radius: 4px;
+    color: #fff;
+}
+.verb-get    { background: #2c6a4a; }
+.verb-post   { background: #2f5fe0; }
+.verb-patch  { background: #8a5a00; }
+.verb-put    { background: #8a5a00; }
+.verb-delete { background: var(--danger); }
+
+.divider {
+    border: 0;
+    border-top: 1px solid var(--border);
+    margin: 44px 0 34px;
+}
+
+footer.doc-footer {
+    margin-top: 48px;
+    padding-top: 18px;
+    border-top: 1px solid var(--border);
+    font-size: 13px;
+    color: var(--text-muted);
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+}
+
+/* ==========================================================================
+   PRINT / PDF
+   Tuned for A4 and US Letter. Sections start on fresh pages; figures and
+   their captions never split across a page boundary.
+   ========================================================================== */
+@page {
+    size: A4;
+    margin: 17mm 16mm 18mm;
+}
+
+@media print {
+    html, body {
+        background: #fff;
+        font-size: 10.4pt;
+        line-height: 1.55;
+    }
+    .appbar, .no-print { display: none !important; }
+
+    .sheet {
+        max-width: none;
+        margin: 0;
+        padding: 0;
+        border: 0;
+        border-radius: 0;
+        box-shadow: none;
+        background: #fff;
+    }
+
+    /* Force backgrounds/colours to survive the print pipeline. */
+    .badge, .note, .warn, code, kbd, table.ref thead th, .rule,
+    .toc li::before, figure img {
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+
+    /* Cover and contents each own a page. */
+    .cover { break-after: page; page-break-after: always; }
+    .toc   { break-after: page; page-break-after: always; }
+    .cover h1 { font-size: 34pt; }
+    .cover .tagline { font-size: 13pt; }
+
+    /* Every numbered section starts on a fresh page. */
+    .section { break-before: page; page-break-before: always; }
+    .section:first-of-type { break-before: auto; page-break-before: auto; }
+
+    h2, h3 { break-after: avoid; page-break-after: avoid; }
+    h2 { font-size: 17pt; }
+    h3 { font-size: 12pt; margin-top: 16pt; }
+
+    /* Keep an image with its caption, and never orphan either. */
+    figure { break-inside: avoid; page-break-inside: avoid; margin: 12pt 0 14pt; }
+    figcaption { font-size: 8.6pt; }
+    figure img { max-height: 165mm; width: auto; max-width: 100%; }
+    figure img.narrow { width: 62mm; }
+
+    pre {
+        font-size: 8.4pt;
+        white-space: pre-wrap;      /* paper can't scroll sideways */
+        word-break: break-word;
+        background: #f7f8fa;
+        break-inside: avoid;
+        page-break-inside: avoid;
+    }
+    .verb { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+
+    table.ref, .note, .warn, li { break-inside: avoid; page-break-inside: avoid; }
+    table.ref { font-size: 9.2pt; }
+    table.ref th, table.ref td { padding: 5pt 7pt; }
+    thead { display: table-header-group; }
+
+    p, li { orphans: 3; widows: 3; }
+    a { color: inherit; text-decoration: none; }
+
+    /* Let the colophon follow the last section rather than stranding it
+       alone on a final near-blank page. */
+    .divider { margin: 20pt 0 16pt; }
+    footer.doc-footer {
+        break-before: avoid;
+        page-break-before: avoid;
+        break-inside: avoid;
+        font-size: 8.6pt;
+    }
+}
+</style>
+</head>
+<body>
+
+<!-- Screen-only bar back to the app -->
+<div class="appbar no-print">
+    <a href="/tasks">&larr; Back to my tasks</a>
+    <span class="hint">Use your browser's Print dialog and choose
+        <b>Save as PDF</b> to keep a copy.</span>
+</div>
+
+<div class="sheet">
+
+<!-- ====================== COVER ====================== -->
+<section class="cover">
+    <p class="eyebrow">User Guide</p>
+    <h1>To&nbsp;Do</h1>
+    <p class="tagline">A shared task list for this server — create, organise,
+        complete and delete tasks from any browser, with nothing to install.</p>
+    <div class="rule"></div>
+
+    <table class="facts">
+        <tr><th>Application</th><td>To Do — shared task list</td></tr>
+        <tr><th>Address</th><td><code>http://172.26.6.118</code></td></tr>
+        <tr><th>Audience</th><td>Anyone using or administering the list</td></tr>
+        <tr><th>Sign-in required</th><td>No — the list is shared and unauthenticated</td></tr>
+        <tr><th>Supported browsers</th><td>Any current browser; works with JavaScript disabled</td></tr>
+        <tr><th>Guide version</th><td>1.0 &middot; 27 July 2026</td></tr>
+    </table>
+
+    <div class="warn">
+        <span class="label">Read this first</span>
+        <p>The app has <b>no accounts, passwords or per-user separation</b>. Everyone
+        who can reach the address above sees and edits the <i>same</i> list, and
+        deletions are permanent and immediate. Treat it as a shared whiteboard
+        rather than a private notebook.</p>
+    </div>
+</section>
+
+<!-- ====================== CONTENTS ====================== -->
+<section class="toc">
+    <h2>Contents</h2>
+    <ol>
+        <li><a href="#access">Getting to the app</a>
+            <span class="desc">&mdash; where it lives and what to expect</span></li>
+        <li><a href="#list">The task list</a>
+            <span class="desc">&mdash; the main screen, explained piece by piece</span></li>
+        <li><a href="#create">Creating a task</a>
+            <span class="desc">&mdash; the form and what each field does</span></li>
+        <li><a href="#complete">Completing and reopening tasks</a>
+            <span class="desc">&mdash; the one-click circle</span></li>
+        <li><a href="#detail">Viewing task details</a>
+            <span class="desc">&mdash; notes, timestamps and full history</span></li>
+        <li><a href="#edit">Editing a task</a>
+            <span class="desc">&mdash; changing any field after the fact</span></li>
+        <li><a href="#delete">Deleting a task</a>
+            <span class="desc">&mdash; and why it can't be undone</span></li>
+        <li><a href="#organise">Filtering and sorting</a>
+            <span class="desc">&mdash; narrowing the list and reordering it</span></li>
+        <li><a href="#badges">Badge reference</a>
+            <span class="desc">&mdash; what every coloured label means</span></li>
+        <li><a href="#mobile">Phones, tablets and dark mode</a>
+            <span class="desc">&mdash; the same page on any screen</span></li>
+        <li><a href="#ionic">The mobile app</a>
+            <span class="desc">&mdash; the Ionic client at <code>/app</code></span></li>
+        <li><a href="#trouble">Troubleshooting</a>
+            <span class="desc">&mdash; common symptoms and their fixes</span></li>
+        <li><a href="#admin">Notes for administrators</a>
+            <span class="desc">&mdash; where things live and what to back up</span></li>
+        <li><a href="#api">The JSON API</a>
+            <span class="desc">&mdash; developer reference for every endpoint</span></li>
+    </ol>
+</section>
+
+<!-- ====================== 1. ACCESS ====================== -->
+<section class="section" id="access">
+    <h2><span class="num">Section 1</span>Getting to the app</h2>
+    <p class="lead">There is nothing to install and no account to create. If you
+    can reach the address, you can use the list.</p>
+
+    <p>Open a browser and go to <code>http://172.26.6.118</code>. You'll land
+    straight on your task list — the bare address redirects to
+    <code>/tasks</code> automatically, so either form works.</p>
+
+    <table class="ref">
+        <thead><tr><th>What you want</th><th>Where to go</th></tr></thead>
+        <tbody>
+            <tr><td>The task list</td><td><code>/tasks</code></td></tr>
+            <tr><td>A blank new-task form</td><td><code>/tasks/create</code></td></tr>
+            <tr><td>The mobile app</td><td><code>/app</code></td></tr>
+            <tr><td>This guide</td><td><code>/guide</code></td></tr>
+            <tr><td>The JSON API</td><td><code>/api/tasks</code></td></tr>
+        </tbody>
+    </table>
+
+    <div class="note">
+        <span class="label">Access is restricted by network</span>
+        <p>This address is reachable from inside the hosting network, not from the
+        open internet. If the page doesn't load, see
+        <a href="#trouble">Troubleshooting</a> — it's almost always a network
+        permission rather than a fault in the app.</p>
+    </div>
+</section>
+
+<!-- ====================== 2. THE LIST ====================== -->
+<section class="section" id="list">
+    <h2><span class="num">Section 2</span>The task list</h2>
+    <p class="lead">Everything happens from this one screen. It's the page you
+    land on, and every action returns you to it.</p>
+
+    <figure>
+        <img src="img/list-desktop.png" alt="The To Do task list showing five
+             tasks with priority and due-date badges, filter tabs, and sort options.">
+        <figcaption><b>The main screen.</b> Filter tabs and counts at the top
+        left, sorting at the top right, then one row per task. <b>New task</b>
+        sits in the top-right corner.</figcaption>
+    </figure>
+
+    <h3>Anatomy of a task row</h3>
+    <p>Each row packs everything you need to judge a task at a glance, plus its
+    controls:</p>
+
+    <figure>
+        <img src="img/task-row.png" alt="A single task row: circular toggle on the
+             left, task title, priority and due-date badges, then Edit and Delete buttons.">
+        <figcaption><b>One row, left to right.</b> The circle marks the task
+        complete. The <b>title</b> is a link to the full detail page. Beneath it
+        sit the priority badge, the due-date badge, and a <i>has notes</i> marker
+        when the task carries notes. <b>Edit</b> and <b>Delete</b> sit on the
+        right.</figcaption>
+    </figure>
+
+    <ul class="plain">
+        <li><b>The circle</b> — click once to mark the task done, click again to
+            reopen it. See <a href="#complete">Section 4</a>.</li>
+        <li><b>The title</b> — click to open the task's own page with its notes
+            and full history. See <a href="#detail">Section 5</a>.</li>
+        <li><b>The badges</b> — priority always, plus a due-date badge that turns
+            red when overdue. Full list in <a href="#badges">Section 9</a>.</li>
+        <li><b>Edit</b> — opens the task in a form with every field prefilled.</li>
+        <li><b>Delete</b> — removes the task permanently, after one confirmation.</li>
+    </ul>
+
+    <div class="note">
+        <span class="label">If the list is empty</span>
+        <p>A first-time list shows <i>Nothing here yet</i> with a button to add
+        your first task. If a <i>filter</i> is hiding everything instead, you'll
+        see <i>No active tasks</i> (or <i>No done tasks</i>) with a link back to
+        the full list — so an empty screen is never a dead end.</p>
+    </div>
+</section>
+
+<!-- ====================== 3. CREATE ====================== -->
+<section class="section" id="create">
+    <h2><span class="num">Section 3</span>Creating a task</h2>
+    <p class="lead">Only the title is required. Everything else can be filled in
+    later, or never.</p>
+
+    <ol class="steps">
+        <li>Click <b>New task</b> at the top right of the list.</li>
+        <li>Type a <b>Title</b>. The cursor is already there, so you can start
+            typing straight away.</li>
+        <li>Optionally set a <b>Due date</b>, a <b>Priority</b>, and any
+            <b>Notes</b>.</li>
+        <li>Click <b>Create task</b>. You return to the list with a short
+            confirmation message, and your new task is in place.</li>
+    </ol>
+
+    <figure>
+        <img src="img/create-form.png" alt="The New task form with Title, Due date,
+             Priority, Notes fields, a Mark as completed checkbox, and Create task
+             and Cancel buttons.">
+        <figcaption><b>The new-task form.</b> The red asterisk marks Title as the
+        only required field. <b>Cancel</b> returns to the list without saving
+        anything.</figcaption>
+    </figure>
+
+    <h3>What each field does</h3>
+    <table class="ref">
+        <thead><tr><th>Field</th><th>Required</th><th>What it does</th></tr></thead>
+        <tbody>
+            <tr><td><b>Title</b></td><td>Yes</td>
+                <td>The task itself, up to 255 characters. This is what shows in
+                    the list, so keep it short and specific.</td></tr>
+            <tr><td><b>Due date</b></td><td>No</td>
+                <td>Drives the overdue and due-today badges, and the default
+                    sort. Leave blank for tasks with no deadline — they show
+                    <i>No due date</i>. The date box is supplied by your browser,
+                    so its layout follows your own regional settings and may not
+                    match the screenshot; the date is stored and displayed the
+                    same way regardless.</td></tr>
+            <tr><td><b>Priority</b></td><td>No</td>
+                <td>Low, Medium or High. Defaults to <b>Medium</b>. Shown as a
+                    coloured badge on every row.</td></tr>
+            <tr><td><b>Notes</b></td><td>No</td>
+                <td>Longer detail, up to 5,000 characters — links, context,
+                    a checklist. Rows with notes show a <i>has notes</i>
+                    marker.</td></tr>
+            <tr><td><b>Mark as&nbsp;completed</b></td><td>No</td>
+                <td>Files the task as already done on creation. Useful for
+                    logging something you finished before writing it down.</td></tr>
+        </tbody>
+    </table>
+
+    <h3>If something's wrong with the form</h3>
+    <p>The app checks your input and explains any problem next to the field that
+    caused it. Crucially, <b>nothing you typed is lost</b> — the form comes back
+    with your work still in it, so you only fix the one field.</p>
+
+    <figure>
+        <img src="img/validation-error.png" alt="The task form redisplayed with a
+             red error message under the Title field, with the notes text still
+             preserved in the form.">
+        <figcaption><b>An empty title, rejected.</b> The message appears under
+        the offending field, the field is outlined in red, and the Notes text
+        typed earlier is still there.</figcaption>
+    </figure>
+</section>
+
+<!-- ====================== 4. COMPLETE ====================== -->
+<section class="section" id="complete">
+    <h2><span class="num">Section 4</span>Completing and reopening tasks</h2>
+    <p class="lead">One click, no dialogs, no save button.</p>
+
+    <p>Click the <b>circle</b> at the left of any row. The task is immediately
+    marked complete: its title is struck through, the row dims, and the app
+    records the exact time you finished it. Click the circle again to reopen the
+    task — that timestamp is cleared, and the task returns to normal.</p>
+
+    <figure>
+        <img src="img/list-done.png" alt="The Done tab showing one completed task
+             with its title struck through and a Completed badge.">
+        <figcaption><b>A completed task on the Done tab.</b> The struck-through
+        title and dimmed row mark it as finished.</figcaption>
+    </figure>
+
+    <div class="note">
+        <span class="label">Your view is preserved</span>
+        <p>Completing a task keeps you exactly where you were — same filter, same
+        sort order. If you're working through the <b>Active</b> tab, the finished
+        task simply drops out of view and you carry on down the list.</p>
+    </div>
+
+    <p>You can also complete a task from its detail page, or by ticking
+    <b>Mark as completed</b> on the edit form — all three routes do the same
+    thing.</p>
+</section>
+
+<!-- ====================== 5. DETAIL ====================== -->
+<section class="section" id="detail">
+    <h2><span class="num">Section 5</span>Viewing task details</h2>
+    <p class="lead">The list shows a summary. The detail page shows everything.</p>
+
+    <p>Click any task's <b>title</b> to open its own page. This is where to read
+    long notes, which the list only hints at with a <i>has notes</i> marker.</p>
+
+    <figure>
+        <img src="img/task-detail.png" alt="A task detail page showing status,
+             priority, due date, notes, created and updated timestamps, with
+             Mark as done, Edit and Delete buttons.">
+        <figcaption><b>The detail page.</b> Status, priority, due date and the
+        full notes, plus when the task was created and last changed. The same
+        complete / edit / delete actions sit at the bottom.</figcaption>
+    </figure>
+
+    <p>Two things appear here that the list doesn't show: the <b>Created</b> and
+    <b>Last updated</b> timestamps, and — for finished tasks — the exact date and
+    time it was completed. <b>Back to list</b> at the top right returns you to
+    the list.</p>
+</section>
+
+<!-- ====================== 6. EDIT ====================== -->
+<section class="section" id="edit">
+    <h2><span class="num">Section 6</span>Editing a task</h2>
+    <p class="lead">Any field, any time.</p>
+
+    <ol class="steps">
+        <li>Click <b>Edit</b> on the row, or on the task's detail page.</li>
+        <li>Change whatever you need — the form arrives with every field already
+            filled in as it stands.</li>
+        <li>Click <b>Save changes</b>, or <b>Cancel</b> to discard and go back.</li>
+    </ol>
+
+    <figure>
+        <img src="img/edit-form.png" alt="The edit form for an existing task, with
+             title, due date, priority and notes prefilled and a Save changes button.">
+        <figcaption><b>The edit form.</b> Identical in layout to the new-task
+        form, but prefilled — and the <b>Mark as completed</b> checkbox reflects
+        the task's current state.</figcaption>
+    </figure>
+
+    <p>Editing is a safe way to reorganise: raise a priority as a deadline
+    approaches, push a due date back a week, or paste in the context you didn't
+    have when you first jotted the task down.</p>
+</section>
+
+<!-- ====================== 7. DELETE ====================== -->
+<section class="section" id="delete">
+    <h2><span class="num">Section 7</span>Deleting a task</h2>
+    <p class="lead">Deletion is permanent. There is no archive, no bin, and no undo.</p>
+
+    <ol class="steps">
+        <li>Click the red <b>Delete</b> button on the row or the detail page.</li>
+        <li>Your browser asks <i>&ldquo;Delete this task? This cannot be
+            undone.&rdquo;</i></li>
+        <li>Choose <b>OK</b> to delete it, or <b>Cancel</b> to keep it. Cancelling
+            changes nothing at all.</li>
+    </ol>
+
+    <div class="warn">
+        <span class="label">There is no undo</span>
+        <p>Once confirmed, the task and its notes are gone for good — the
+        confirmation box is the only safety net. If you might want the task
+        later, <b>complete it instead of deleting it</b>: finished tasks stay on
+        the <b>Done</b> tab indefinitely, out of your way but fully recoverable
+        with one click.</p>
+    </div>
+
+    <p>Because the list is shared, a task you delete disappears for everyone.
+    Completing is almost always the better habit.</p>
+</section>
+
+<!-- ====================== 8. ORGANISE ====================== -->
+<section class="section" id="organise">
+    <h2><span class="num">Section 8</span>Filtering and sorting</h2>
+    <p class="lead">Filters change <i>which</i> tasks you see. Sorting changes the
+    <i>order</i>. They work together.</p>
+
+    <figure>
+        <img src="img/toolbar.png" alt="The toolbar: All, Active and Done filter
+             tabs with counts on the left, and Due date, Priority, Title, Newest
+             sort links on the right.">
+        <figcaption><b>The toolbar.</b> Filter tabs with live counts on the left;
+        sort options on the right. The active choice in each group is
+        highlighted.</figcaption>
+    </figure>
+
+    <h3>Filters</h3>
+    <table class="ref">
+        <thead><tr><th>Tab</th><th>Shows</th></tr></thead>
+        <tbody>
+            <tr><td><b>All</b></td><td>Every task, finished or not.</td></tr>
+            <tr><td><b>Active</b></td><td>Only unfinished tasks — the day-to-day view.</td></tr>
+            <tr><td><b>Done</b></td><td>Only completed tasks, as a record of what's been finished.</td></tr>
+        </tbody>
+    </table>
+    <p>The number beside each tab is a live count, so you can see how much is
+    outstanding without switching tabs. <b>Active</b> and <b>Done</b> always sum
+    to <b>All</b>.</p>
+
+    <h3>Sorting</h3>
+    <table class="ref">
+        <thead><tr><th>Option</th><th>Orders by</th><th>Best for</th></tr></thead>
+        <tbody>
+            <tr><td><b>Due date</b></td><td>Soonest deadline first; undated tasks last</td>
+                <td>Working to deadlines — this is the default</td></tr>
+            <tr><td><b>Priority</b></td><td>High, then Medium, then Low</td>
+                <td>Deciding what matters most today</td></tr>
+            <tr><td><b>Title</b></td><td>Alphabetical, A to Z</td>
+                <td>Finding a specific task by name</td></tr>
+            <tr><td><b>Newest</b></td><td>Most recently created first</td>
+                <td>Reviewing what was just added</td></tr>
+        </tbody>
+    </table>
+
+    <div class="note">
+        <span class="label">Your view is shareable and bookmarkable</span>
+        <p>The filter and sort you pick are part of the page address, so
+        <code>/tasks?filter=active&amp;sort=priority</code> — active tasks, most
+        important first — can be bookmarked or sent to a colleague, and it opens
+        exactly as you left it.</p>
+    </div>
+</section>
+
+<!-- ====================== 9. BADGES ====================== -->
+<section class="section" id="badges">
+    <h2><span class="num">Section 9</span>Badge reference</h2>
+    <p class="lead">Every coloured label in the list, and what it's telling you.</p>
+
+    <table class="ref">
+        <thead><tr><th>Badge</th><th>Meaning</th></tr></thead>
+        <tbody>
+            <tr><td><span class="badge badge-high">High</span></td>
+                <td>High priority. Sorts to the top under <b>Priority</b>.</td></tr>
+            <tr><td><span class="badge badge-medium">Medium</span></td>
+                <td>Medium priority — the default for a new task.</td></tr>
+            <tr><td><span class="badge badge-low">Low</span></td>
+                <td>Low priority. Worth doing, not worth worrying about.</td></tr>
+            <tr><td><span class="badge badge-over">Overdue &middot; 28 Jul 2026</span></td>
+                <td>The due date has passed and the task isn't finished. Shown in
+                    red with the date, so it can't be missed.</td></tr>
+            <tr><td><span class="badge badge-today">Due today</span></td>
+                <td>Due today and still open.</td></tr>
+            <tr><td><i>Due 20 Aug 2026</i></td>
+                <td>A future deadline — plain grey text rather than a badge, because
+                    it needs no attention yet.</td></tr>
+            <tr><td><i>No due date</i></td>
+                <td>No deadline set. These sort to the bottom under <b>Due date</b>.</td></tr>
+            <tr><td><i>&middot; has notes</i></td>
+                <td>The task carries notes. Open it to read them.</td></tr>
+        </tbody>
+    </table>
+
+    <p>Overdue and due-today badges are worked out fresh each time the page
+    loads, so a task becomes visibly overdue on its own — you never have to
+    re-save anything to keep the list honest.</p>
+</section>
+
+<!-- ====================== 10. DEVICES ====================== -->
+<section class="section" id="mobile">
+    <h2><span class="num">Section 10</span>Phones, tablets and dark mode</h2>
+    <p class="lead">The same page adapts to the screen and to your system
+    appearance settings. There is no separate mobile app or setting to find.</p>
+
+    <h3>On a phone</h3>
+    <p>The layout rearranges rather than shrinking: filter tabs spread across the
+    full width, sorting moves onto its own line, and each task's Edit and Delete
+    buttons drop below its badges so they stay comfortably tappable. Nothing is
+    hidden, and there's no sideways scrolling.</p>
+
+    <figure>
+        <img class="narrow" src="img/list-mobile.png" alt="The task list on a
+             narrow phone screen, with the filter tabs spread full width and
+             each task's buttons stacked below its badges.">
+        <figcaption><b>The list on a phone.</b> Same information, reflowed to
+        fit a narrow screen.</figcaption>
+    </figure>
+
+    <h3>Dark mode</h3>
+    <p>If your device is set to a dark appearance, the app follows it
+    automatically — no toggle to hunt for. Badge colours are re-tuned rather
+    than simply inverted, so priorities stay just as easy to read.</p>
+
+    <figure>
+        <img src="img/list-dark.png" alt="The task list in dark mode, with a near
+             black background, light text, and re-tuned badge colours.">
+        <figcaption><b>Dark mode.</b> Triggered by your system setting; the
+        layout is unchanged.</figcaption>
+    </figure>
+
+    <div class="note">
+        <span class="label">Works without JavaScript</span>
+        <p>Every core action — creating, editing, completing and deleting — is a
+        plain form submission. The app remains fully usable in locked-down
+        browsers with JavaScript switched off. The only thing you lose is the
+        confirmation box before a delete, which means deletion happens
+        <i>immediately</i>. Take extra care in that case.</p>
+    </div>
+</section>
+
+<!-- ====================== 11. IONIC APP ====================== -->
+<section class="section" id="ionic">
+    <h2><span class="num">Section 11</span>The mobile app</h2>
+    <p class="lead">A second, phone-first way into the same list. Built with
+    Ionic, it runs in your browser at <code>/app</code> — there is nothing to
+    install from an app store.</p>
+
+    <p>Open <code>http://172.26.6.118/app</code>. It shows the same tasks as the
+    main site because it reads and writes the same database through the app's
+    JSON API (<a href="#api">Section 14</a>). A change made in one shows up in
+    the other as soon as you reload.</p>
+
+    <table class="ref">
+        <thead><tr><th>Which one should I use?</th><th></th></tr></thead>
+        <tbody>
+            <tr><td><b>The main site</b><br><code>/tasks</code></td>
+                <td>Best on a desktop. Shows more per row, has a dedicated detail
+                    page per task, and works with JavaScript disabled.</td></tr>
+            <tr><td><b>The mobile app</b><br><code>/app</code></td>
+                <td>Best on a phone. Native-feeling controls, swipe-to-delete,
+                    pull-to-refresh, and it can be added to your home screen.
+                    Requires JavaScript.</td></tr>
+        </tbody>
+    </table>
+
+    <figure>
+        <img class="narrow" src="img/ionic-list.png" alt="The Ionic mobile app
+             showing the task list with All, Active and Done tabs, checkboxes,
+             priority badges and a blue add button.">
+        <figcaption><b>The mobile app.</b> Filter tabs with counts across the
+        top, the sort menu at the top right, a checkbox per task, and the blue
+        <b>+</b> button to add one.</figcaption>
+    </figure>
+
+    <h3>How it differs from the main site</h3>
+    <ul class="plain">
+        <li><b>Tap the checkbox</b> to complete or reopen a task, in place of the
+            circle on the main site.</li>
+        <li><b>Tap the pencil</b> on a row to edit it. The form opens as a sheet
+            over the list rather than a separate page.</li>
+        <li><b>Swipe a task left</b> to reveal its delete button — there's no
+            permanent Delete button taking up space on every row.</li>
+        <li><b>Pull down</b> on the list to refresh it. Handy on a shared list,
+            where someone else may have changed something.</li>
+        <li><b>Tap the sort menu</b> (top right) to reorder; the filter tabs work
+            exactly as they do on the main site.</li>
+        <li><b>No detail page.</b> To read a task's notes, open it with the
+            pencil. Rows still show a <i>has notes</i> marker.</li>
+    </ul>
+
+    <figure>
+        <img class="narrow" src="img/ionic-swipe.png" alt="A task swiped to the
+             left in the mobile app, revealing a red delete button.">
+        <figcaption><b>Swipe left to delete.</b> A confirmation still follows —
+        deletion can't be undone here either.</figcaption>
+    </figure>
+
+    <h3>Adding and editing</h3>
+    <p>Tap <b>+</b> for a new task, or the pencil to change an existing one. The
+    same fields appear as on the main site, and the same rules apply: only the
+    title is required. If the server rejects something, the message appears
+    under the offending field and nothing you typed is cleared.</p>
+
+    <figure>
+        <img class="narrow" src="img/ionic-form.png" alt="The new task sheet in
+             the mobile app with Title, Due date, Priority, Notes and a Completed
+             toggle.">
+        <figcaption><b>The new-task sheet.</b> <b>Cancel</b> discards,
+        <b>Save</b> commits. The <b>Completed</b> switch replaces the main site's
+        checkbox.</figcaption>
+    </figure>
+
+    <h3>Dark mode and home-screen install</h3>
+    <p>Like the main site, the app follows your device's light or dark setting
+    automatically. On a phone you can use your browser's <i>Add to Home Screen</i>
+    option to launch it full-screen from an icon, which makes it behave much like
+    an installed app — while still being served from this server.</p>
+
+    <figure>
+        <img class="narrow" src="img/ionic-dark.png" alt="The Ionic mobile app in
+             dark mode with a black background and light text.">
+        <figcaption><b>The mobile app in dark mode.</b></figcaption>
+    </figure>
+
+    <div class="note">
+        <span class="label">Dates follow your device</span>
+        <p>The app formats due dates using your device's own regional settings,
+        so they may read <i>Aug 14, 2026</i> or <i>14 Aug 2026</i> depending on
+        where you are. It's the same underlying date either way.</p>
+    </div>
+</section>
+
+<!-- ====================== 12. TROUBLESHOOTING ====================== -->
+<section class="section" id="trouble">
+    <h2><span class="num">Section 12</span>Troubleshooting</h2>
+
+    <table class="ref">
+        <thead><tr><th>Symptom</th><th>What to do</th></tr></thead>
+        <tbody>
+            <tr>
+                <td><b>The page won't load at all</b></td>
+                <td>You're most likely outside the network permitted to reach the
+                    server. Confirm you're on the hosting network or VPN, and check
+                    the address is exactly <code>http://172.26.6.118</code> — note
+                    <code>http</code>, not <code>https</code>. If colleagues on the
+                    same network can reach it, the app is fine and the problem is
+                    your connection.</td>
+            </tr>
+            <tr>
+                <td><b>The page loads but looks unstyled</b></td>
+                <td>The stylesheet didn't load. Force a refresh with
+                    <kbd>Ctrl</kbd>+<kbd>F5</kbd> (<kbd>Cmd</kbd>+<kbd>Shift</kbd>+<kbd>R</kbd>
+                    on a Mac). If it persists, tell your administrator — see
+                    <a href="#admin">Section 13</a>.</td>
+            </tr>
+            <tr>
+                <td><b>The mobile app is stuck on grey placeholder rows</b></td>
+                <td>It's waiting on the API and hasn't got an answer. Pull down to
+                    refresh. If it stays that way, check the main site at
+                    <code>/tasks</code> still loads — if that works and the app
+                    doesn't, tell your administrator; if neither works, it's the
+                    network.</td>
+            </tr>
+            <tr>
+                <td><b>The mobile app shows a red error message</b></td>
+                <td>The message comes straight from the server. <i>Could not reach
+                    the server</i> means a connection problem — pull down to retry.
+                    Anything else names the specific field or task that was
+                    refused.</td>
+            </tr>
+            <tr>
+                <td><b>The app and the main site disagree</b></td>
+                <td>Neither updates itself when someone else makes a change. Pull
+                    down to refresh the app, or reload the main site. Whatever is
+                    in the database wins.</td>
+            </tr>
+            <tr>
+                <td><b>&ldquo;Page expired&rdquo; when saving</b></td>
+                <td>The form sat open too long and its security token lapsed. Go
+                    back, reload the page, and re-enter your change. Nothing was
+                    saved, and nothing was damaged.</td>
+            </tr>
+            <tr>
+                <td><b>My task vanished</b></td>
+                <td>Check the <b>All</b> tab first — you may be on <b>Active</b>
+                    and the task may have been completed. If it isn't under
+                    <b>All</b>, someone deleted it, and it cannot be recovered.</td>
+            </tr>
+            <tr>
+                <td><b>A task I didn't create appeared</b></td>
+                <td>Expected. The list is shared by everyone who can reach the
+                    server — there are no private lists.</td>
+            </tr>
+            <tr>
+                <td><b>My change was overwritten</b></td>
+                <td>Two people edited the same task at once; the last save wins.
+                    For anything contentious, agree who owns a task rather than
+                    relying on the app to arbitrate.</td>
+            </tr>
+            <tr>
+                <td><b>&ldquo;Not found&rdquo; on a task page</b></td>
+                <td>The task was deleted after your page loaded, or the address
+                    is mistyped. Return to <code>/tasks</code>.</td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+
+<!-- ====================== 12. ADMIN ====================== -->
+<section class="section" id="admin">
+    <h2><span class="num">Section 13</span>Notes for administrators</h2>
+    <p class="lead">A short reference for whoever keeps this running.</p>
+
+    <table class="ref">
+        <thead><tr><th>Item</th><th>Detail</th></tr></thead>
+        <tbody>
+            <tr><td>Application root</td><td><code>/var/www/todo</code></td></tr>
+            <tr><td>Served by</td><td>nginx on port 80 &rarr; php-fpm 8.3</td></tr>
+            <tr><td>Framework</td><td>Laravel 13.22.0 on PHP 8.3.6</td></tr>
+            <tr><td>Database</td><td>PostgreSQL 16, database <code>todo_app</code>,
+                role <code>todo_user</code> on <code>127.0.0.1:5432</code></td></tr>
+            <tr><td>Task data</td><td>A single <code>tasks</code> table</td></tr>
+            <tr><td>Config file</td><td><code>/var/www/todo/.env</code> — mode 640,
+                owner <code>ubuntu:www-data</code></td></tr>
+            <tr><td>Logs</td><td><code>/var/www/todo/storage/logs/</code> and
+                <code>/var/log/nginx/todo-*.log</code></td></tr>
+            <tr><td>This guide</td><td><code>/var/www/todo/public/guide/</code></td></tr>
+            <tr><td>JSON API</td><td>Routes in <code>routes/api.php</code>,
+                controller <code>App\Http\Controllers\Api\TaskApiController</code>,
+                JSON shape in <code>App\Http\Resources\TaskResource</code></td></tr>
+            <tr><td>Mobile app source</td><td><code>/home/ubuntu/ionic-todo</code> —
+                Ionic 8 + React 19 + Vite; <code>npm run build</code></td></tr>
+            <tr><td>Mobile app build</td><td><code>/var/www/todo/public/app/</code> —
+                compiled output only; never edit it directly</td></tr>
+        </tbody>
+    </table>
+
+    <div class="warn">
+        <span class="label">Before widening access</span>
+        <p>The app has no authentication whatsoever. Anyone who can reach port 80
+        has full read, edit and delete rights over every task. Put
+        authentication in front of it before exposing it to a wider network or
+        the public internet.</p>
+    </div>
+
+    <h3>Routine maintenance</h3>
+    <ul class="plain">
+        <li>The app runs with cached configuration, routes and views. After
+            editing <code>.env</code>, run <code>php artisan config:cache</code>
+            or the change won't take effect.</li>
+        <li><b>Back up the database</b>, not the files — the tasks exist only in
+            PostgreSQL, and there is no in-app undo for a deletion.</li>
+        <li>Two test suites verify the app end to end:
+            <code>/var/www/todo/crud_test.sh</code> exercises it over HTTP, and
+            <code>/home/ubuntu/e2e/run.sh</code> drives a real browser. Run both
+            after any change.</li>
+        <li><b>Rebuilding the mobile app</b> takes two steps — editing the files
+            under <code>public/app/</code> does nothing, because they're compiled
+            output:
+            <pre><code>cd /home/ubuntu/ionic-todo
+npm run build
+sudo cp -r dist/. /var/www/todo/public/app/</code></pre></li>
+        <li>The API is registered in <code>bootstrap/app.php</code> rather than by
+            <code>artisan install:api</code>, which would add Sanctum to an app
+            that has no authentication. Run <code>php artisan route:cache</code>
+            after changing <code>routes/api.php</code>.</li>
+        <li><b>Working on the mobile app with live reload</b> — run the Vite dev
+            server, which is reachable both on its own port and, proxied by nginx,
+            at <code>/app-dev</code>:
+            <pre><code>cd /home/ubuntu/ionic-todo
+npx ionic serve --host=0.0.0.0 --port=8100 --no-open</code></pre>
+            <code>/app-dev</code> is the live dev server and <code>/app</code> is
+            always the compiled build, so a dev session can never take the working
+            app offline. The dev server proxies <code>/api</code> to Laravel on
+            port 80; without that its task list would come up empty. It is a
+            development tool — leave <code>/app</code> as the URL you share.</li>
+    </ul>
+</section>
+
+<!-- ====================== 14. API ====================== -->
+<section class="section" id="api">
+    <h2><span class="num">Section 14</span>The JSON API</h2>
+    <p class="lead">A developer reference. This is what the mobile app talks to,
+    and it's available to any other client you want to write.</p>
+
+    <table class="facts">
+        <tr><th>Base URL</th><td><code>http://172.26.6.118/api</code></td></tr>
+        <tr><th>Format</th><td>JSON in, JSON out. Send
+            <code>Accept: application/json</code> and, for writes,
+            <code>Content-Type: application/json</code></td></tr>
+        <tr><th>Authentication</th><td>None</td></tr>
+        <tr><th>CSRF token</th><td>Not required — these routes are stateless, so
+            plain <code>fetch()</code> or <code>curl</code> works</td></tr>
+        <tr><th>Rate limit</th><td>180 requests per minute per IP; exceeding it
+            returns <code>429</code></td></tr>
+    </table>
+
+    <div class="warn">
+        <span class="label">The API is unauthenticated</span>
+        <p>Every endpoint below, including <code>DELETE</code>, is open to anyone
+        who can reach the server. The rate limit is a guard against a runaway
+        client, not a security control. Do not widen network access to this
+        server without putting authentication in front of it.</p>
+    </div>
+
+    <h3>Endpoints</h3>
+    <table class="ref">
+        <thead><tr><th>Endpoint</th><th>Does</th><th>Success</th></tr></thead>
+        <tbody>
+            <tr><td><span class="verb verb-get">GET</span> <code>/api/tasks</code></td>
+                <td>List tasks, with filter, sort and paging</td><td><code>200</code></td></tr>
+            <tr><td><span class="verb verb-post">POST</span> <code>/api/tasks</code></td>
+                <td>Create a task</td><td><code>201</code></td></tr>
+            <tr><td><span class="verb verb-get">GET</span> <code>/api/tasks/{id}</code></td>
+                <td>Fetch one task</td><td><code>200</code></td></tr>
+            <tr><td><span class="verb verb-patch">PATCH</span> <code>/api/tasks/{id}</code></td>
+                <td>Update the fields you send; omitted fields are left alone
+                    (<code>PUT</code> is accepted and behaves identically)</td>
+                <td><code>200</code></td></tr>
+            <tr><td><span class="verb verb-patch">PATCH</span> <code>/api/tasks/{id}/toggle</code></td>
+                <td>Flip done/not-done, letting the server decide the new value</td>
+                <td><code>200</code></td></tr>
+            <tr><td><span class="verb verb-delete">DELETE</span> <code>/api/tasks/{id}</code></td>
+                <td>Delete a task, permanently</td><td><code>204</code></td></tr>
+        </tbody>
+    </table>
+
+    <h3>The task object</h3>
+    <p>Every endpoint that returns a task returns this same shape, wrapped in a
+    <code>data</code> key:</p>
+    <pre><code>{
+  "data": {
+    "id": 174,
+    "title": "Submit expense report",
+    "notes": "Attach the taxi receipts from the Sydney trip.",
+    "due_date": "2026-08-14",
+    "priority": "high",
+    "is_done": false,
+    "is_overdue": false,
+    "is_due_today": false,
+    "completed_at": null,
+    "created_at": "2026-07-27T19:51:03+00:00",
+    "updated_at": "2026-07-27T19:51:03+00:00"
+  }
+}</code></pre>
+
+    <table class="ref">
+        <thead><tr><th>Field</th><th>Type</th><th>Notes</th></tr></thead>
+        <tbody>
+            <tr><td><code>id</code></td><td>integer</td><td>Read-only</td></tr>
+            <tr><td><code>title</code></td><td>string</td>
+                <td>Required on create. Max 255 characters, trimmed; whitespace
+                    alone is rejected</td></tr>
+            <tr><td><code>notes</code></td><td>string or null</td><td>Max 5,000 characters</td></tr>
+            <tr><td><code>due_date</code></td><td>string or null</td>
+                <td><code>YYYY-MM-DD</code>. Date only — there is no time component</td></tr>
+            <tr><td><code>priority</code></td><td>string</td>
+                <td>One of <code>high</code>, <code>medium</code>, <code>low</code>.
+                    Defaults to <code>medium</code></td></tr>
+            <tr><td><code>is_done</code></td><td>boolean</td><td>Defaults to <code>false</code></td></tr>
+            <tr><td><code>is_overdue</code></td><td>boolean</td>
+                <td><b>Read-only, derived.</b> Computed server-side so every client
+                    agrees what overdue means</td></tr>
+            <tr><td><code>is_due_today</code></td><td>boolean</td><td>Read-only, derived</td></tr>
+            <tr><td><code>completed_at</code></td><td>string or null</td>
+                <td><b>Read-only.</b> Set when <code>is_done</code> becomes true and
+                    cleared when it becomes false. Never accepted from a request, so
+                    it can't contradict <code>is_done</code></td></tr>
+            <tr><td><code>created_at</code></td><td>string</td><td>Read-only, ISO 8601</td></tr>
+            <tr><td><code>updated_at</code></td><td>string</td><td>Read-only, ISO 8601</td></tr>
+        </tbody>
+    </table>
+
+    <h3>Listing tasks</h3>
+    <p class="pre-label">Request</p>
+    <pre><code>curl 'http://172.26.6.118/api/tasks?filter=active&amp;sort=priority' \
+     -H 'Accept: application/json'</code></pre>
+
+    <table class="ref">
+        <thead><tr><th>Parameter</th><th>Values</th><th>Default</th></tr></thead>
+        <tbody>
+            <tr><td><code>filter</code></td>
+                <td><code>all</code>, <code>active</code>, <code>done</code></td>
+                <td><code>all</code></td></tr>
+            <tr><td><code>sort</code></td>
+                <td><code>due</code>, <code>priority</code>, <code>title</code>,
+                    <code>created</code></td>
+                <td><code>due</code></td></tr>
+            <tr><td><code>per_page</code></td><td>1 to 100</td><td><code>25</code></td></tr>
+            <tr><td><code>page</code></td><td>Page number</td><td><code>1</code></td></tr>
+        </tbody>
+    </table>
+    <p>An unrecognised <code>filter</code> or <code>sort</code> is ignored and the
+    default used, rather than returning an error.</p>
+
+    <p class="pre-label">Response</p>
+    <pre><code>{
+  "data": [ /* task objects */ ],
+  "meta": {
+    "filter": "active",
+    "sort": "priority",
+    "counts": { "all": 6, "active": 5, "done": 1 },
+    "page": 1,
+    "per_page": 25,
+    "total": 5,
+    "last_page": 1
+  },
+  "links": { "prev": null, "next": null }
+}</code></pre>
+    <p>The <code>counts</code> block covers the whole table, not just the current
+    page, so a client can render filter tabs with counts from this one call.</p>
+
+    <h3>Creating and updating</h3>
+    <p class="pre-label">Create</p>
+    <pre><code>curl -X POST http://172.26.6.118/api/tasks \
+     -H 'Content-Type: application/json' -H 'Accept: application/json' \
+     -d '{"title":"Book the venue","due_date":"2026-09-01","priority":"high"}'</code></pre>
+    <p>Returns <code>201</code> with the created task and a <code>Location</code>
+    header pointing at it. Only <code>title</code> is required.</p>
+
+    <p class="pre-label">Update one field</p>
+    <pre><code>curl -X PATCH http://172.26.6.118/api/tasks/174 \
+     -H 'Content-Type: application/json' -H 'Accept: application/json' \
+     -d '{"priority":"low"}'</code></pre>
+    <p>Updates are partial: the example above changes the priority and leaves the
+    title, notes, due date and done state exactly as they were. This matters —
+    sending <code>{"title":"x"}</code> will <i>not</i> silently reopen a completed
+    task.</p>
+
+    <p class="pre-label">Complete a task</p>
+    <pre><code>curl -X PATCH http://172.26.6.118/api/tasks/174/toggle \
+     -H 'Accept: application/json'</code></pre>
+    <p>Prefer <code>toggle</code> over sending <code>is_done</code> yourself: it
+    needs no prior read, so two clients can't race on a stale value. It also keeps
+    <code>completed_at</code> correct automatically.</p>
+
+    <h3>Errors</h3>
+    <table class="ref">
+        <thead><tr><th>Status</th><th>Means</th></tr></thead>
+        <tbody>
+            <tr><td><code>404</code></td><td>No task with that id</td></tr>
+            <tr><td><code>422</code></td><td>Validation failed; see the shape below</td></tr>
+            <tr><td><code>429</code></td><td>Rate limit exceeded — back off and retry</td></tr>
+            <tr><td><code>500</code></td><td>Server error; check
+                <code>storage/logs/laravel.log</code></td></tr>
+        </tbody>
+    </table>
+
+    <p class="pre-label">A 422 response</p>
+    <pre><code>{
+  "message": "Please give the task a title. (and 1 more error)",
+  "errors": {
+    "title": ["Please give the task a title."],
+    "priority": ["Pick a priority of high, medium or low."]
+  }
+}</code></pre>
+    <p>Errors are keyed by field name, which is how the mobile app puts each
+    message under the input that caused it. The messages are the same ones the
+    web forms show, so both surfaces stay consistent.</p>
+
+    <div class="note">
+        <span class="label">Same rules as the web UI</span>
+        <p>The API shares the web app's filters, sort keys, validation rules and
+        <code>completed_at</code> handling by design, so a task created through the
+        API is indistinguishable from one created through a form. There is no
+        separate API-only behaviour to learn.</p>
+    </div>
+</section>
+
+<hr class="divider">
+
+<footer class="doc-footer">
+    <span>To Do — User Guide &middot; version 1.0 &middot; 27 July 2026</span>
+    <span>http://172.26.6.118/guide</span>
+</footer>
+
+</div><!-- /.sheet -->
+</body>
+</html>

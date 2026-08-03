@@ -1,12 +1,18 @@
 @extends('layouts.app')
 
-@section('title', 'New Task')
+@section('title', 'New task · To Do')
+
+@section('header-actions')
+    <a class="btn btn-ghost" href="{{ route('tasks.index') }}">Back to list</a>
+@endsection
 
 @section('content')
-    <h2>New Task</h2>
+    <h1 class="page-title">New task</h1>
 
-    <form method="POST" action="{{ route('tasks.store') }}">
-        @csrf
-        @include('tasks._form')
-    </form>
+    @include('tasks._form', [
+        'task' => $task,
+        'action' => route('tasks.store'),
+        'method' => 'POST',
+        'submit' => 'Create task',
+    ])
 @endsection
