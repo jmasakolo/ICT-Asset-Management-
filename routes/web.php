@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\AuthController as AdminAuthController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Admin\DepartmentController as AdminDepartmentController;
 use App\Http\Controllers\Admin\LocationController as AdminLocationController;
+use App\Http\Controllers\Admin\MaintenanceController as AdminMaintenanceController;
 use App\Http\Controllers\Admin\UserController as AdminUserController;
 use App\Http\Controllers\AssetController;
 use App\Http\Controllers\AuthController;
@@ -54,8 +55,10 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('/locations', [AdminLocationController::class, 'index'])->name('locations.index');
         Route::post('/locations', [AdminLocationController::class, 'store'])->name('locations.store');
 
+        Route::get('/maintenance', [AdminMaintenanceController::class, 'index'])->name('maintenance.index');
+        Route::post('/maintenance', [AdminMaintenanceController::class, 'store'])->name('maintenance.store');
+
         // Placeholder sections for the admin nav shell — real modules land one at a time.
-        Route::view('/maintenance', 'admin.placeholder', ['title' => 'Maintenance', 'active' => 'maintenance'])->name('maintenance.index');
         Route::view('/reports', 'admin.placeholder', ['title' => 'Reports', 'active' => 'reports'])->name('reports.index');
         Route::view('/audit-logs', 'admin.placeholder', ['title' => 'Audit Logs', 'active' => 'audit-logs'])->name('audit-logs.index');
         Route::view('/settings', 'admin.placeholder', ['title' => 'Settings', 'active' => 'settings'])->name('settings.index');
