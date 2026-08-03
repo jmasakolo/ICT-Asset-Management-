@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\AssetController as AdminAssetController;
 use App\Http\Controllers\Admin\AuthController as AdminAuthController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
+use App\Http\Controllers\Admin\UserController as AdminUserController;
 use App\Http\Controllers\AssetController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
@@ -42,8 +43,10 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('/assets', [AdminAssetController::class, 'index'])->name('assets.index');
         Route::post('/assets', [AdminAssetController::class, 'store'])->name('assets.store');
 
+        Route::get('/users', [AdminUserController::class, 'index'])->name('users.index');
+        Route::post('/users', [AdminUserController::class, 'store'])->name('users.store');
+
         // Placeholder sections for the admin nav shell — real modules land one at a time.
-        Route::view('/users', 'admin.placeholder', ['title' => 'Users', 'active' => 'users'])->name('users.index');
         Route::view('/departments', 'admin.placeholder', ['title' => 'Departments', 'active' => 'departments'])->name('departments.index');
         Route::view('/locations', 'admin.placeholder', ['title' => 'Locations', 'active' => 'locations'])->name('locations.index');
         Route::view('/maintenance', 'admin.placeholder', ['title' => 'Maintenance', 'active' => 'maintenance'])->name('maintenance.index');
