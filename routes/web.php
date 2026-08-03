@@ -41,5 +41,14 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
         Route::get('/assets', [AdminAssetController::class, 'index'])->name('assets.index');
         Route::post('/assets', [AdminAssetController::class, 'store'])->name('assets.store');
+
+        // Placeholder sections for the admin nav shell — real modules land one at a time.
+        Route::view('/users', 'admin.placeholder', ['title' => 'Users', 'active' => 'users'])->name('users.index');
+        Route::view('/departments', 'admin.placeholder', ['title' => 'Departments', 'active' => 'departments'])->name('departments.index');
+        Route::view('/locations', 'admin.placeholder', ['title' => 'Locations', 'active' => 'locations'])->name('locations.index');
+        Route::view('/maintenance', 'admin.placeholder', ['title' => 'Maintenance', 'active' => 'maintenance'])->name('maintenance.index');
+        Route::view('/reports', 'admin.placeholder', ['title' => 'Reports', 'active' => 'reports'])->name('reports.index');
+        Route::view('/audit-logs', 'admin.placeholder', ['title' => 'Audit Logs', 'active' => 'audit-logs'])->name('audit-logs.index');
+        Route::view('/settings', 'admin.placeholder', ['title' => 'Settings', 'active' => 'settings'])->name('settings.index');
     });
 });

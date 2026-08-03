@@ -1,12 +1,9 @@
-@extends('layouts.dashboard')
+@extends('layouts.admin')
 
-@section('title', 'Asset Management')
-@section('header', 'Admin Dashboard')
+@section('title', 'Asset Assignments')
+@section('header', 'Asset Assignments')
 @section('subheader', 'Logged in as ' . auth()->guard('admin')->user()->email)
 @section('active', 'assets')
-@section('overviewRoute', 'admin.dashboard')
-@section('assetsRoute', 'admin.assets.index')
-@section('logoutRoute', 'admin.logout')
 
 @section('vite')
     @vite(['resources/css/app.css', 'resources/js/app.js'])
