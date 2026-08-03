@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\SettingsRequest;
+use App\Models\AuditLog;
 use App\Models\Setting;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
@@ -22,6 +23,8 @@ class SettingController extends Controller
     {
         Setting::set('site_name', $request->validated('site_name'));
         Setting::set('currency_symbol', $request->validated('currency_symbol'));
+
+        AuditLog::record('updated', null, 'Updated settings (site name, currency symbol).');
 
         return redirect()
             ->route('admin.settings.index')

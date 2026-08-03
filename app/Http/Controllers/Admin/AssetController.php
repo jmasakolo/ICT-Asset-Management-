@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\AssetRequest;
 use App\Models\Asset;
+use App\Models\AuditLog;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
 
@@ -20,6 +21,8 @@ class AssetController extends Controller
     public function store(AssetRequest $request): RedirectResponse
     {
         $asset = Asset::create($request->validated());
+
+        AuditLog::record('created', $asset, "Created asset “{$asset->name}”.");
 
         return redirect()
             ->route('admin.assets.index')

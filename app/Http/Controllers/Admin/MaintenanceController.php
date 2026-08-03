@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\MaintenanceRecordRequest;
 use App\Models\Asset;
+use App\Models\AuditLog;
 use App\Models\MaintenanceRecord;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
@@ -21,7 +22,9 @@ class MaintenanceController extends Controller
 
     public function store(MaintenanceRecordRequest $request): RedirectResponse
     {
-        MaintenanceRecord::create($request->validated());
+        $record = MaintenanceRecord::create($request->validated());
+
+        AuditLog::record('created', $record, "Logged maintenance for “{$record->asset->name}”: {$record->description}.");
 
         return redirect()
             ->route('admin.maintenance.index')

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UserRequest;
+use App\Models\AuditLog;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
@@ -20,6 +21,8 @@ class UserController extends Controller
     public function store(UserRequest $request): RedirectResponse
     {
         $user = User::create($request->validated());
+
+        AuditLog::record('created', $user, "Created user “{$user->name}” ({$user->email}).");
 
         return redirect()
             ->route('admin.users.index')
