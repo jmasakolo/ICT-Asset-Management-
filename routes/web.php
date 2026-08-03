@@ -1,7 +1,9 @@
 <?php
 
+use App\Http\Controllers\Admin\AssetController as AdminAssetController;
 use App\Http\Controllers\Admin\AuthController as AdminAuthController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
+use App\Http\Controllers\AssetController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\TaskController;
@@ -24,6 +26,8 @@ Route::middleware('guest')->group(function () {
 Route::middleware('auth')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::get('/assets', [AssetController::class, 'index'])->name('assets.index');
+    Route::post('/assets', [AssetController::class, 'store'])->name('assets.store');
 });
 
 Route::prefix('admin')->name('admin.')->group(function () {
@@ -35,5 +39,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::middleware('auth:admin')->group(function () {
         Route::post('/logout', [AdminAuthController::class, 'logout'])->name('logout');
         Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
+        Route::get('/assets', [AdminAssetController::class, 'index'])->name('assets.index');
+        Route::post('/assets', [AdminAssetController::class, 'store'])->name('assets.store');
     });
 });
