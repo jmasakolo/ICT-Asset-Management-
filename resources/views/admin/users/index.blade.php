@@ -29,7 +29,7 @@
 
         <form method="POST"
               action="{{ $editing ? route('admin.users.update', $editing) : route('admin.users.store') }}"
-              class="grid gap-4 sm:grid-cols-4">
+              class="grid gap-4 sm:grid-cols-3">
             @csrf
             @if ($editing) @method('PUT') @endif
             <div>
@@ -49,14 +49,7 @@
                 <input type="password" name="password" id="password" {{ $editing ? '' : 'required' }}
                        class="w-full rounded-md border border-gray-300 px-3 py-2 text-sm">
             </div>
-            <div>
-                <label for="role" class="mb-1 block text-sm text-gray-700">Role</label>
-                <select name="role" id="role" class="w-full rounded-md border border-gray-300 px-3 py-2 text-sm">
-                    <option value="ict_asset_team" {{ old('role', $editing?->role) === 'ict_asset_team' ? 'selected' : '' }}>ICT Asset Team</option>
-                    <option value="manager" {{ old('role', $editing?->role) === 'manager' ? 'selected' : '' }}>Manager</option>
-                </select>
-            </div>
-            <div class="sm:col-span-4 flex gap-3">
+            <div class="sm:col-span-3 flex gap-3">
                 <button type="submit" class="rounded-md bg-gray-900 px-4 py-2 text-sm font-medium text-white hover:bg-gray-700">
                     {{ $editing ? 'Save changes' : 'Add user' }}
                 </button>
@@ -89,7 +82,6 @@
                 <tr>
                     <th class="px-4 py-3 font-medium">Name</th>
                     <th class="px-4 py-3 font-medium">Email</th>
-                    <th class="px-4 py-3 font-medium">Role</th>
                     <th class="px-4 py-3 font-medium">Assets assigned</th>
                     <th class="px-4 py-3 font-medium">Joined</th>
                     <th class="px-4 py-3 font-medium">Actions</th>
@@ -100,7 +92,6 @@
                     <tr class="border-b border-gray-100 last:border-0">
                         <td class="px-4 py-3">{{ $user->name }}</td>
                         <td class="px-4 py-3">{{ $user->email }}</td>
-                        <td class="px-4 py-3">{{ $user->role === 'manager' ? 'Manager' : 'ICT Asset Team' }}</td>
                         <td class="px-4 py-3">{{ $user->assets_count }}</td>
                         <td class="px-4 py-3">{{ $user->created_at->format('M j, Y') }}</td>
                         <td class="px-4 py-3">
@@ -114,7 +105,7 @@
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="6" class="px-4 py-6 text-center text-gray-500">
+                        <td colspan="5" class="px-4 py-6 text-center text-gray-500">
                             No users match{{ $search ? ' your search' : ' yet. Add your first one above.' }}
                         </td>
                     </tr>

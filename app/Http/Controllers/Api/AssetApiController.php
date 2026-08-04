@@ -17,10 +17,8 @@ use Illuminate\Http\Response;
  * Unlike the web AssetController (self-service, scoped to the logged-in
  * user's own assets), intake staff log assets on behalf of whoever it's being
  * assigned to, so this lists across all assets rather than just Auth::id().
- *
- * store/update are additionally gated by 'role:ict_asset_team' in
- * routes/api.php — index/show are open to any authenticated role (managers
- * get read-only oversight of the whole fleet).
+ * Every authenticated regular user has the same read/write access here —
+ * there's no sub-role distinction on this side of the login.
  */
 class AssetApiController extends Controller
 {

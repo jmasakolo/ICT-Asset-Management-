@@ -5,7 +5,6 @@ use App\Http\Controllers\Api\AuthController as ApiAuthController;
 use App\Http\Controllers\Api\ReportController as ApiReportController;
 use App\Http\Controllers\Api\TaskApiController;
 use App\Http\Controllers\Api\UserController as ApiUserController;
-use App\Models\User;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -36,16 +35,11 @@ Route::middleware(['auth:sanctum', 'throttle:180,1'])->group(function (): void {
     Route::patch('tasks/{task}/toggle', [TaskApiController::class, 'toggle'])
         ->name('api.tasks.toggle');
 
-    // Read is available to any logged-in role (ict_asset_team or manager);
-    // write is restricted to ict_asset_team — managers are oversight-only.
     Route::get('assets', [AssetApiController::class, 'index'])->name('api.assets.index');
+    Route::post('assets', [AssetApiController::class, 'store'])->name('api.assets.store');
     Route::get('assets/{asset}', [AssetApiController::class, 'show'])->name('api.assets.show');
-
-    Route::middleware('role:'.User::ROLE_ICT_ASSET_TEAM)->group(function (): void {
-        Route::post('assets', [AssetApiController::class, 'store'])->name('api.assets.store');
-        Route::match(['put', 'patch'], 'assets/{asset}', [AssetApiController::class, 'update'])
-            ->name('api.assets.update');
-    });
+    Route::match(['put', 'patch'], 'assets/{asset}', [AssetApiController::class, 'update'])
+        ->name('api.assets.update');
 
     Route::get('reports/pdf', [ApiReportController::class, 'pdf'])->name('api.reports.pdf');
 

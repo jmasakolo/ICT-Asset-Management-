@@ -2,7 +2,6 @@
 
 namespace App\Http\Requests;
 
-use App\Models\User;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
@@ -27,7 +26,6 @@ class UserRequest extends FormRequest
             // Password is required to create a user but optional on edit —
             // leaving it blank keeps the current password unchanged.
             'password' => [$user ? 'sometimes' : 'required', 'nullable', 'string', 'min:8'],
-            'role' => ['required', Rule::in(User::ROLES)],
         ];
     }
 }

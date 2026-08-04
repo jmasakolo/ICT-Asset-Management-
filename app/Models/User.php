@@ -14,21 +14,12 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Str;
 use Laravel\Sanctum\HasApiTokens;
 
-#[Fillable(['name', 'email', 'password', 'role'])]
+#[Fillable(['name', 'email', 'password'])]
 #[Hidden(['password', 'remember_token'])]
 class User extends Authenticatable
 {
     /** @use HasFactory<UserFactory> */
     use HasApiTokens, HasFactory, Notifiable;
-
-    // Distinct from the separate `admin` guard/Admin model — these are the
-    // two roles a regular (web/sanctum) account can hold. 'ict_asset_team'
-    // can create/edit assets; 'manager' is read-only oversight.
-    public const ROLE_ICT_ASSET_TEAM = 'ict_asset_team';
-
-    public const ROLE_MANAGER = 'manager';
-
-    public const ROLES = [self::ROLE_ICT_ASSET_TEAM, self::ROLE_MANAGER];
 
     /**
      * Get the attributes that should be cast.
@@ -46,11 +37,6 @@ class User extends Authenticatable
     public function assets(): HasMany
     {
         return $this->hasMany(Asset::class, 'assigned_user_id');
-    }
-
-    public function canManageAssets(): bool
-    {
-        return $this->role === self::ROLE_ICT_ASSET_TEAM;
     }
 
     /**

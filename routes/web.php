@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::redirect('/', '/tasks');
 
-// Single login page for every role (admin, ICT Asset Team, manager).
+// Single login page for both account types (admin, regular user).
 // AuthController::login tries the admin guard then the web guard and
 // redirects by whichever one actually authenticated.
 Route::middleware('guest:web,admin')->group(function () {

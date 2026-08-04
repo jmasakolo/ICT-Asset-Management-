@@ -40,10 +40,9 @@ class AuthController extends Controller
 
         $remember = $request->boolean('remember');
 
-        // Single login form for every role: try the admin guard first (a
-        // distinct `admins` table/session), then the regular `web` guard
-        // (User::role of ict_asset_team/manager). Whichever one actually
-        // matches decides where the user lands.
+        // Single login form for both account types: try the admin guard
+        // first (a distinct `admins` table/session), then the regular `web`
+        // guard. Whichever one actually matches decides where the user lands.
         if (Auth::guard('admin')->attempt($credentials, $remember)) {
             RateLimiter::clear($throttleKey);
             $request->session()->regenerate();

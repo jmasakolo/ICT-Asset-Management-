@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Middleware\EnsureUserHasRole;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -18,10 +17,6 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
-        $middleware->alias([
-            'role' => EnsureUserHasRole::class,
-        ]);
-
         // Single login page for every role — admin-area guests land on the
         // same /login as everyone else rather than a separate admin form.
         $middleware->redirectGuestsTo(fn () => route('login'));
