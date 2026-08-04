@@ -15,7 +15,7 @@ class AuditLog extends Model
     public static function record(string $action, ?Model $subject, string $description): void
     {
         $admin = Auth::guard('admin')->user();
-        $user = $admin ? null : Auth::guard('web')->user();
+        $user = $admin ? null : (Auth::guard('web')->user() ?? Auth::guard('sanctum')->user());
 
         static::create([
             'actor_type' => $admin ? 'admin' : ($user ? 'user' : 'system'),

@@ -1,6 +1,10 @@
 <?php
 
+use App\Http\Controllers\Api\AssetApiController;
+use App\Http\Controllers\Api\AuthController as ApiAuthController;
+use App\Http\Controllers\Api\ReportController as ApiReportController;
 use App\Http\Controllers\Api\TaskApiController;
+use App\Http\Controllers\Api\UserController as ApiUserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -27,4 +31,32 @@ Route::middleware('throttle:180,1')->group(function (): void {
         ->name('api.tasks.destroy');
     Route::patch('tasks/{task}/toggle', [TaskApiController::class, 'toggle'])
         ->name('api.tasks.toggle');
+});
+
+/*
+|--------------------------------------------------------------------------
+| Asset intake API (mobile app)
+|--------------------------------------------------------------------------
+|
+| Unlike the tasks API above, this one requires a login — intake staff are
+| identified individuals, not an anonymous shared client — so it's token
+| auth via Sanctum rather than the tasks API's "no auth" model.
+|
+*/
+
+Route::middleware('throttle:20,1')->post('login', [ApiAuthController::class, 'login'])
+    ->name('api.login');
+
+Route::middleware(['auth:sanctum', 'throttle:180,1'])->group(function (): void {
+    Route::post('logout', [ApiAuthController::class, 'logout'])->name('api.logout');
+
+    Route::get('assets', [AssetApiController::class, 'index'])->name('api.assets.index');
+    Route::post('assets', [AssetApiController::class, 'store'])->name('api.assets.store');
+    Route::get('assets/{asset}', [AssetApiController::class, 'show'])->name('api.assets.show');
+    Route::match(['put', 'patch'], 'assets/{asset}', [AssetApiController::class, 'update'])
+        ->name('api.assets.update');
+
+    Route::get('reports/pdf', [ApiReportController::class, 'pdf'])->name('api.reports.pdf');
+
+    Route::get('users', [ApiUserController::class, 'index'])->name('api.users.index');
 });

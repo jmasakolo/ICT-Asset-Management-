@@ -24,9 +24,12 @@ class ReportController extends Controller
     }
 
     /**
+     * Public so the mobile API's ReportController can reuse the exact same
+     * figures rather than re-deriving them and risking drift.
+     *
      * @return array<string, mixed>
      */
-    private function data(): array
+    public function data(): array
     {
         $maintenanceCount = MaintenanceRecord::count();
         $maintenanceTotalCost = MaintenanceRecord::sum('cost');
