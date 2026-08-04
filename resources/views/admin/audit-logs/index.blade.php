@@ -10,6 +10,20 @@
 @endsection
 
 @section('content')
+    <form method="GET" action="{{ route('admin.audit-logs.index') }}" class="mb-4 flex flex-wrap items-end gap-3">
+        <div>
+            <label for="search" class="mb-1 block text-sm text-gray-700">Search</label>
+            <input type="text" name="search" id="search" value="{{ $search }}" placeholder="Actor, action, subject, description…"
+                   class="w-72 rounded-md border border-gray-300 px-3 py-2 text-sm">
+        </div>
+        <button type="submit" class="rounded-md bg-gray-200 px-4 py-2 text-sm font-medium text-gray-800 hover:bg-gray-300">
+            Search
+        </button>
+        @if ($search)
+            <a href="{{ route('admin.audit-logs.index') }}" class="text-sm text-gray-600 underline hover:text-gray-900">Clear</a>
+        @endif
+    </form>
+
     <div class="rounded-lg border border-gray-200 bg-white shadow-sm">
         <table class="w-full text-left text-sm">
             <thead class="border-b border-gray-200 text-gray-500">
@@ -33,7 +47,7 @@
                 @empty
                     <tr>
                         <td colspan="5" class="px-4 py-6 text-center text-gray-500">
-                            No activity logged yet.
+                            {{ $search ? 'No activity matches your search.' : 'No activity logged yet.' }}
                         </td>
                     </tr>
                 @endforelse

@@ -14,7 +14,9 @@ use Illuminate\Validation\Rule;
 class TaskRequest extends FormRequest
 {
     /**
-     * The app has no authentication — a single shared task list.
+     * The route itself requires login (see routes/web.php); tasks have no
+     * owner column, so any logged-in user may manage any task — a single
+     * shared list, not per-user data.
      */
     public function authorize(): bool
     {

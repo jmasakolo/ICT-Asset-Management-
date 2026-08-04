@@ -18,7 +18,9 @@ use Illuminate\Validation\Rule;
 class TaskApiRequest extends FormRequest
 {
     /**
-     * The app has no authentication — a single shared task list.
+     * The route itself requires a Sanctum token (see routes/api.php); tasks
+     * have no owner column, so any authenticated user may manage any task —
+     * a single shared list, not per-user data.
      */
     public function authorize(): bool
     {

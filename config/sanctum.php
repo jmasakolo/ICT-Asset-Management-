@@ -50,7 +50,11 @@ return [
     |
     */
 
-    'expiration' => null,
+    // Previously null (tokens never expired) — a stolen/leaked mobile token
+    // had indefinite full-access validity with no way for a user to force
+    // re-auth short of the app's own logout. 1 day balances re-login
+    // frequency against exposure window; override per-deployment via env.
+    'expiration' => env('SANCTUM_TOKEN_EXPIRATION', 1440),
 
     /*
     |--------------------------------------------------------------------------

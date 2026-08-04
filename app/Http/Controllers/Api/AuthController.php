@@ -28,7 +28,11 @@ class AuthController extends Controller
             'password' => ['required', 'string'],
         ]);
 
-        $throttleKey = Str::lower($credentials['email']).'|'.$request->ip();
+        // Email is case-insensitive to the user (and stored lowercase) but
+        // the DB column comparison is case-sensitive, so "Name@Example.com"
+        // would otherwise fail to match a stored "name@example.com".
+        $credentials['email'] = Str::lower($credentials['email']);
+        $throttleKey = $credentials['email'].'|'.$request->ip();
 
         if (RateLimiter::tooManyAttempts($throttleKey, 5)) {
             $seconds = RateLimiter::availableIn($throttleKey);

@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class LocationRequest extends FormRequest
 {
@@ -18,7 +19,7 @@ class LocationRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => ['required', 'string', 'max:255', 'unique:locations,name'],
+            'name' => ['required', 'string', 'max:255', Rule::unique('locations', 'name')->ignore($this->route('location'))],
         ];
     }
 }

@@ -27,6 +27,8 @@ class AssetResource extends JsonResource
             'condition' => $this->condition,
             'value' => (float) $this->value,
             'assigned_user_id' => $this->assigned_user_id,
+            'department_id' => $this->department_id,
+            'location_id' => $this->location_id,
             'received_at' => $this->received_at?->toDateString(),
             'warranty_expires_at' => $this->warranty_expires_at?->toDateString(),
             'created_at' => $this->created_at?->toIso8601String(),

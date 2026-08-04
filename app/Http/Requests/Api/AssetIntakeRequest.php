@@ -43,6 +43,8 @@ class AssetIntakeRequest extends FormRequest
             'status' => ['sometimes', Rule::in(Asset::STATUSES)],
             'value' => ['sometimes', 'nullable', 'numeric', 'min:0'],
             'assigned_user_id' => ['sometimes', 'nullable', 'exists:users,id'],
+            'department_id' => ['sometimes', 'nullable', 'exists:departments,id'],
+            'location_id' => ['sometimes', 'nullable', 'exists:locations,id'],
             'received_at' => ['sometimes', 'nullable', 'date'],
             'warranty_expires_at' => ['sometimes', 'nullable', 'date'],
         ];

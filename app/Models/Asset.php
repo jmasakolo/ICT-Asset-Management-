@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 #[Fillable([
     'name', 'category', 'model', 'serial_number', 'asset_tag', 'status', 'condition',
-    'value', 'assigned_user_id', 'received_at', 'warranty_expires_at',
+    'value', 'assigned_user_id', 'department_id', 'location_id', 'received_at', 'warranty_expires_at',
 ])]
 class Asset extends Model
 {
@@ -41,6 +41,16 @@ class Asset extends Model
     public function assignedUser(): BelongsTo
     {
         return $this->belongsTo(User::class, 'assigned_user_id');
+    }
+
+    public function department(): BelongsTo
+    {
+        return $this->belongsTo(Department::class);
+    }
+
+    public function location(): BelongsTo
+    {
+        return $this->belongsTo(Location::class);
     }
 
     public function maintenanceRecords(): HasMany

@@ -6,49 +6,12 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\RateLimiter;
-use Illuminate\Support\Str;
-use Illuminate\Validation\ValidationException;
-use Illuminate\View\View;
 
+// Login itself now happens through the single unified form —
+// App\Http\Controllers\AuthController::login tries this guard before the
+// regular `web` one. Only logout is guard-specific enough to stay here.
 class AuthController extends Controller
 {
-    public function showLoginForm(): View
-    {
-        return view('admin.login');
-    }
-
-    public function login(Request $request): RedirectResponse
-    {
-        $credentials = $request->validate([
-            'email' => ['required', 'email'],
-            'password' => ['required', 'string'],
-        ]);
-
-        $throttleKey = Str::lower($credentials['email']).'|'.$request->ip();
-
-        if (RateLimiter::tooManyAttempts($throttleKey, 5)) {
-            $seconds = RateLimiter::availableIn($throttleKey);
-
-            throw ValidationException::withMessages([
-                'email' => "Too many login attempts. Please try again in {$seconds} seconds.",
-            ]);
-        }
-
-        if (! Auth::guard('admin')->attempt($credentials, $request->boolean('remember'))) {
-            RateLimiter::hit($throttleKey, 60);
-
-            throw ValidationException::withMessages([
-                'email' => 'These credentials do not match our records.',
-            ]);
-        }
-
-        RateLimiter::clear($throttleKey);
-        $request->session()->regenerate();
-
-        return redirect()->route('admin.dashboard');
-    }
-
     public function logout(Request $request): RedirectResponse
     {
         Auth::guard('admin')->logout();
@@ -56,6 +19,6 @@ class AuthController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return redirect()->route('admin.login');
+        return redirect()->route('login');
     }
 }

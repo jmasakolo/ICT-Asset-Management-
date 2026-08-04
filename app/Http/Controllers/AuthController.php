@@ -24,7 +24,11 @@ class AuthController extends Controller
             'password' => ['required', 'string'],
         ]);
 
-        $throttleKey = Str::lower($credentials['email']).'|'.$request->ip();
+        // Email is case-insensitive to the user (and stored lowercase) but
+        // the DB column comparison is case-sensitive, so "Name@Example.com"
+        // would otherwise fail to match a stored "name@example.com".
+        $credentials['email'] = Str::lower($credentials['email']);
+        $throttleKey = $credentials['email'].'|'.$request->ip();
 
         if (RateLimiter::tooManyAttempts($throttleKey, 5)) {
             $seconds = RateLimiter::availableIn($throttleKey);
@@ -34,18 +38,31 @@ class AuthController extends Controller
             ]);
         }
 
-        if (! Auth::attempt($credentials, $request->boolean('remember'))) {
-            RateLimiter::hit($throttleKey, 60);
+        $remember = $request->boolean('remember');
 
-            throw ValidationException::withMessages([
-                'email' => 'These credentials do not match our records.',
-            ]);
+        // Single login form for every role: try the admin guard first (a
+        // distinct `admins` table/session), then the regular `web` guard
+        // (User::role of ict_asset_team/manager). Whichever one actually
+        // matches decides where the user lands.
+        if (Auth::guard('admin')->attempt($credentials, $remember)) {
+            RateLimiter::clear($throttleKey);
+            $request->session()->regenerate();
+
+            return redirect()->route('admin.dashboard');
         }
 
-        RateLimiter::clear($throttleKey);
-        $request->session()->regenerate();
+        if (Auth::guard('web')->attempt($credentials, $remember)) {
+            RateLimiter::clear($throttleKey);
+            $request->session()->regenerate();
 
-        return redirect()->route('dashboard');
+            return redirect()->route('dashboard');
+        }
+
+        RateLimiter::hit($throttleKey, 60);
+
+        throw ValidationException::withMessages([
+            'email' => 'These credentials do not match our records.',
+        ]);
     }
 
     public function logout(Request $request): RedirectResponse
