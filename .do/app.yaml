@@ -57,6 +57,9 @@ services:
   - key: APP_DEBUG
     scope: RUN_AND_BUILD_TIME
     value: "false"
+  - key: APP_URL
+    scope: RUN_AND_BUILD_TIME
+    value: https://ict-asset-management-ido4z.ondigitalocean.app
   - key: APP_KEY
     scope: RUN_AND_BUILD_TIME
     type: SECRET

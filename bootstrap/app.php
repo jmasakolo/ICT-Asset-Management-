@@ -17,6 +17,12 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
+        // DigitalOcean App Platform terminates TLS at the edge and forwards
+        // requests over HTTP, so Laravel must trust the X-Forwarded-* headers
+        // to know the original request was HTTPS (otherwise url()/asset()
+        // and redirects generate insecure http:// links).
+        $middleware->trustProxies(at: '*');
+
         // Single login page for every role — admin-area guests land on the
         // same /login as everyone else rather than a separate admin form.
         $middleware->redirectGuestsTo(fn () => route('login'));
