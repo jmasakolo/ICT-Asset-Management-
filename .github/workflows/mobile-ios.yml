@@ -1,0 +1,84 @@
+name: Build Mobile iOS
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'mobile/**'
+      - '.github/workflows/mobile-ios.yml'
+  pull_request:
+    paths:
+      - 'mobile/**'
+      - '.github/workflows/mobile-ios.yml'
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: macos-latest
+    defaults:
+      run:
+        working-directory: mobile
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: mobile/package-lock.json
+
+      - run: npm ci
+
+      - name: Build Ionic web app
+        run: npm run build
+        env:
+          VITE_API_BASE_URL: https://assets.techwesz.com/api
+
+      # ios/ is committed as source (same convention as android/), not
+      # regenerated every run — this only fires the first time, or if the
+      # directory is ever deleted.
+      - name: Add iOS platform if missing
+        run: test -d ios || npx cap add ios
+
+      - name: Sync Capacitor iOS platform
+        run: npx cap sync ios
+
+      - name: Install CocoaPods dependencies
+        working-directory: mobile/ios/App
+        run: pod install --repo-update
+
+      # Simulator builds need no signing at all — CODE_SIGNING_ALLOWED=NO
+      # keeps xcodebuild from trying to resolve a signing identity that
+      # doesn't exist in this CI environment.
+      - name: Build for iOS Simulator (unsigned)
+        working-directory: mobile/ios/App
+        run: |
+          xcodebuild \
+            -workspace App.xcworkspace \
+            -scheme App \
+            -sdk iphonesimulator \
+            -configuration Debug \
+            -derivedDataPath build \
+            CODE_SIGNING_ALLOWED=NO \
+            build
+
+      - name: Stage Simulator build
+        run: |
+          mkdir -p ios-build-output
+          cp -R ios/App/App/build/Build/Products/Debug-iphonesimulator/App.app ios-build-output/AssetIntake.app
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: asset-intake-ios-simulator-build
+          path: mobile/ios-build-output/AssetIntake.app
+          retention-days: 30
+
+      - name: Commit iOS native platform changes
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: 'Add/update iOS native platform via CI'
+          file_pattern: mobile/ios/**
