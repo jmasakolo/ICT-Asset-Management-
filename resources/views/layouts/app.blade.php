@@ -26,6 +26,8 @@
             <span aria-hidden="true">&middot;</span>
             <a class="footer-link" href="{{ asset('downloads/todo-app.apk') }}">Download Android APK</a>
             <span aria-hidden="true">&middot;</span>
+            <a class="footer-link" href="{{ asset('downloads/asset-intake-app.apk') }}">Download Asset Intake APK</a>
+            <span aria-hidden="true">&middot;</span>
             <a class="footer-link" href="/guide">User guide</a>
             <span aria-hidden="true">&middot;</span>
             Laravel {{ app()->version() }} &middot; PHP {{ PHP_VERSION }} &middot; PostgreSQL

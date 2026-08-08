@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\Api\AssetApiController;
 use App\Http\Controllers\Api\AuthController as ApiAuthController;
+use App\Http\Controllers\Api\DepartmentController as ApiDepartmentController;
+use App\Http\Controllers\Api\LocationController as ApiLocationController;
 use App\Http\Controllers\Api\ReportController as ApiReportController;
 use App\Http\Controllers\Api\TaskApiController;
 use App\Http\Controllers\Api\UserController as ApiUserController;
@@ -44,4 +46,6 @@ Route::middleware(['auth:sanctum', 'throttle:180,1'])->group(function (): void {
     Route::get('reports/pdf', [ApiReportController::class, 'pdf'])->name('api.reports.pdf');
 
     Route::get('users', [ApiUserController::class, 'index'])->name('api.users.index');
+    Route::get('departments', [ApiDepartmentController::class, 'index'])->name('api.departments.index');
+    Route::get('locations', [ApiLocationController::class, 'index'])->name('api.locations.index');
 });
