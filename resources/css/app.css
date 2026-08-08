@@ -34,7 +34,7 @@
         position: absolute;
         border-radius: 9999px;
         filter: blur(70px);
-        opacity: 0.35;
+        opacity: 0.3;
         pointer-events: none;
         z-index: 0;
     }
@@ -44,7 +44,7 @@
         left: -8rem;
         width: 24rem;
         height: 24rem;
-        background: radial-gradient(circle, #3b82f6, transparent 70%);
+        background: radial-gradient(circle, #2563eb, transparent 70%);
     }
 
     .auth-blob-2 {
@@ -52,7 +52,7 @@
         right: -8rem;
         width: 26rem;
         height: 26rem;
-        background: radial-gradient(circle, #1f2937, transparent 70%);
+        background: radial-gradient(circle, #475569, transparent 70%);
     }
 
     .auth-blob-3 {
@@ -60,6 +60,6 @@
         right: 8%;
         width: 16rem;
         height: 16rem;
-        background: radial-gradient(circle, #60a5fa, transparent 70%);
+        background: radial-gradient(circle, #38bdf8, transparent 70%);
     }
 }
