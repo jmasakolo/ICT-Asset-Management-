@@ -1,0 +1,79 @@
+name: Build Mobile APK
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'mobile/**'
+      - '.github/workflows/mobile-apk.yml'
+  pull_request:
+    paths:
+      - 'mobile/**'
+      - '.github/workflows/mobile-apk.yml'
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: mobile
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: mobile/package-lock.json
+
+      - run: npm ci
+
+      - name: Build Ionic web app
+        run: npm run build
+        env:
+          VITE_API_BASE_URL: https://assets.techwesz.com/api
+
+      - name: Sync Capacitor android platform
+        run: npx cap sync android
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+
+      - uses: android-actions/setup-android@v3
+
+      - name: Install matching Android SDK platform/build-tools
+        run: sdkmanager "platforms;android-35" "build-tools;35.0.0"
+
+      - name: Make gradlew executable
+        run: chmod +x android/gradlew
+
+      - name: Build debug APK
+        working-directory: mobile/android
+        run: ./gradlew assembleDebug --no-daemon
+
+      - name: Stage APK
+        run: cp android/app/build/outputs/apk/debug/app-debug.apk asset-intake-app.apk
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: asset-intake-app-debug-apk
+          path: mobile/asset-intake-app.apk
+          retention-days: 30
+
+      - name: Publish APK to public downloads
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        working-directory: .
+        run: cp mobile/asset-intake-app.apk public/downloads/asset-intake-app.apk
+
+      - name: Commit updated APK
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: 'Update mobile APK via CI build'
+          file_pattern: public/downloads/asset-intake-app.apk
