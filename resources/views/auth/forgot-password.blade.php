@@ -6,8 +6,12 @@
     <title>Forgot Password</title>
     @vite(['resources/css/app.css'])
 </head>
-<body class="auth-bg flex min-h-screen items-center justify-center px-4">
-    <div class="w-full max-w-sm animate-fade-in-up">
+<body class="auth-bg relative flex min-h-screen items-center justify-center overflow-hidden px-4">
+    <div class="auth-blob auth-blob-1"></div>
+    <div class="auth-blob auth-blob-2"></div>
+    <div class="auth-blob auth-blob-3"></div>
+
+    <div class="relative z-10 w-full max-w-sm animate-fade-in-up">
         <div class="mb-8 flex flex-col items-center text-center">
             <span class="text-2xl font-semibold tracking-tight text-gray-900">Forgot Password</span>
             <p class="mt-4 text-sm text-gray-500">

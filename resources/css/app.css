@@ -29,4 +29,37 @@
     .animate-fade-in-up {
         animation: fade-in-up 0.5s ease-out both;
     }
+
+    .auth-blob {
+        position: absolute;
+        border-radius: 9999px;
+        filter: blur(70px);
+        opacity: 0.35;
+        pointer-events: none;
+        z-index: 0;
+    }
+
+    .auth-blob-1 {
+        top: -8rem;
+        left: -8rem;
+        width: 24rem;
+        height: 24rem;
+        background: radial-gradient(circle, #3b82f6, transparent 70%);
+    }
+
+    .auth-blob-2 {
+        bottom: -10rem;
+        right: -8rem;
+        width: 26rem;
+        height: 26rem;
+        background: radial-gradient(circle, #1f2937, transparent 70%);
+    }
+
+    .auth-blob-3 {
+        top: 35%;
+        right: 8%;
+        width: 16rem;
+        height: 16rem;
+        background: radial-gradient(circle, #60a5fa, transparent 70%);
+    }
 }
