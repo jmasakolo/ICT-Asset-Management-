@@ -1,6 +1,9 @@
 databases:
 - engine: PG
   name: db
+domains:
+- domain: assets.techwesz.com
+  type: PRIMARY
 ingress:
   rules:
   - component:
@@ -59,7 +62,7 @@ services:
     value: "false"
   - key: APP_URL
     scope: RUN_AND_BUILD_TIME
-    value: https://ict-asset-management-ido4z.ondigitalocean.app
+    value: https://assets.techwesz.com
   - key: APP_KEY
     scope: RUN_AND_BUILD_TIME
     type: SECRET
