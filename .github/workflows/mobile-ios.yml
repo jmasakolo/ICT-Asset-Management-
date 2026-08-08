@@ -68,7 +68,7 @@ jobs:
       - name: Stage Simulator build
         run: |
           mkdir -p ios-build-output
-          cp -R ios/App/App/build/Build/Products/Debug-iphonesimulator/App.app ios-build-output/AssetIntake.app
+          cp -R ios/App/build/Build/Products/Debug-iphonesimulator/App.app ios-build-output/AssetIntake.app
 
       - uses: actions/upload-artifact@v4
         with:
