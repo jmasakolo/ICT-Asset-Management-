@@ -9,17 +9,7 @@
 <body class="flex min-h-screen items-center justify-center bg-gray-50 px-4">
     <div class="w-full max-w-sm">
         <div class="mb-8 flex flex-col items-center text-center">
-            <div class="flex items-center gap-3">
-                <img
-                    src="{{ asset('images/logo.png') }}"
-                    alt="TECHWESZ logo"
-                    class="h-14 w-14 shrink-0 rounded-lg object-cover shadow-sm"
-                >
-                <span class="flex flex-col leading-tight">
-                    <span class="text-2xl font-semibold tracking-tight text-gray-900">TECHWESZ</span>
-                    <span class="text-xs font-medium text-gray-500">ICT Asset Management</span>
-                </span>
-            </div>
+            <span class="text-2xl font-semibold tracking-tight text-gray-900">ICT Asset Management</span>
             <p class="mt-4 text-sm font-medium text-blue-700">
                 IT Asset Tracking &amp; Inventory Management
             </p>
@@ -68,7 +58,7 @@
         </div>
 
         <p class="mt-6 text-center text-xs text-gray-500">
-            &copy; {{ date('Y') }} TECHWESZ. All rights reserved.
+            &copy; {{ date('Y') }} ICT Asset Management. All rights reserved.
         </p>
     </div>
 </body>
